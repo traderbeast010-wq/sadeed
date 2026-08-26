@@ -51,12 +51,12 @@ export default function Dashboard() {
   return (
     <div className="mx-auto max-w-[1080px] px-8 pb-16">
       {/* لوحة الاستقبال — الأخضر العُمانيّ توقيعُ المنتج */}
-      <div className="relative mt-8 overflow-hidden rounded-[20px] text-white shadow-[0_20px_60px_-20px_rgba(10,36,112,0.55)]">
+      <div className="relative mt-8 overflow-hidden rounded-[20px] text-white shadow-[0_20px_60px_-20px_rgba(0,0,0,0.55)]">
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(135deg, #173eac 0%, #12318a 52%, #0a2470 100%)",
+              "linear-gradient(135deg, #0f172a 0%, #0f172a 52%, #3a2408 100%)",
           }}
         />
         {/* توهّج ذهبيّ خفيف + بريق علويّ */}
@@ -157,7 +157,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-6">
                 <button
                   onClick={() => fileRef.current?.click()}
-                  className="group shrink-0 inline-flex items-center gap-2.5 px-5 py-3 rounded-[10px] bg-[var(--color-brand)] text-white text-[13.5px] font-semibold shadow-[0_6px_18px_-6px_rgba(23,62,172,0.6)] hover:bg-[var(--color-brand-2)] transition-colors"
+                  className="group shrink-0 inline-flex items-center gap-2.5 px-5 py-3 rounded-[10px] bg-[var(--color-brand)] text-white text-[13.5px] font-semibold shadow-[0_6px_18px_-6px_rgba(245,158,11,0.6)] hover:bg-[var(--color-brand-2)] transition-colors"
                 >
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
                     <path

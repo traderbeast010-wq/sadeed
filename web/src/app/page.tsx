@@ -70,12 +70,12 @@ export default function Home() {
 
       {/* البطل */}
       <section className="mx-auto max-w-[1080px] px-6">
-        <div className="relative mt-10 overflow-hidden rounded-[24px] text-white shadow-[0_24px_70px_-24px_rgba(10,36,112,0.6)]">
+        <div className="relative mt-10 overflow-hidden rounded-[24px] text-white shadow-[0_24px_70px_-24px_rgba(0,0,0,0.6)]">
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(135deg, #173eac 0%, #12318a 52%, #0a2470 100%)",
+                "linear-gradient(135deg, #0f172a 0%, #0f172a 52%, #3a2408 100%)",
             }}
           />
           <div

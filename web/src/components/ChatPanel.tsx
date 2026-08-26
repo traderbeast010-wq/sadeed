@@ -145,7 +145,7 @@ export function ChatPanel({
           className="shrink-0 relative px-5 pt-4 pb-4"
           style={{
             background:
-              "linear-gradient(135deg, #173eac 0%, #12318a 55%, #0a2470 100%)",
+              "linear-gradient(135deg, #0f172a 0%, #0f172a 55%, #3a2408 100%)",
           }}
         >
           <div
@@ -212,17 +212,17 @@ export function ChatPanel({
                   className="w-16 h-16 mx-auto mb-4 rounded-[20px] grid place-items-center"
                   style={{
                     background: "linear-gradient(135deg, #eaf0fc, #dbe6fa)",
-                    boxShadow: "inset 0 0 0 1px rgba(23,62,172,0.12)",
+                    boxShadow: "inset 0 0 0 1px rgba(245,158,11,0.12)",
                   }}
                 >
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M12 3l7 3.5v5.2c0 4.3-3 7.4-7 8.3-4-.9-7-4-7-8.3V6.5L12 3z"
-                      stroke="#173eac"
+                      stroke="#0f172a"
                       strokeWidth="1.4"
                       strokeLinejoin="round"
                     />
-                    <path d="M9 12l2.1 2.1L15 10" stroke="#173eac" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M9 12l2.1 2.1L15 10" stroke="#0f172a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <p className="text-[13px] text-[var(--color-ink-2)] leading-relaxed max-w-[280px] mx-auto">
@@ -239,7 +239,7 @@ export function ChatPanel({
                     style={{
                       background: "var(--color-surface)",
                       boxShadow:
-                        "0 2px 8px rgba(10,16,22,0.06), inset 0 0 0 1px rgba(23,62,172,0.18)",
+                        "0 2px 8px rgba(10,16,22,0.06), inset 0 0 0 1px rgba(245,158,11,0.18)",
                       animationDelay: `${i * 70}ms`,
                     }}
                   >
@@ -256,8 +256,8 @@ export function ChatPanel({
                 <div
                   className="max-w-[82%] px-4 py-2.5 text-[12.5px] leading-[1.7] text-white rounded-[18px] rounded-ss-[6px]"
                   style={{
-                    background: "linear-gradient(135deg, #173eac, #12318a)",
-                    boxShadow: "0 4px 14px rgba(23,62,172,0.28)",
+                    background: "linear-gradient(135deg, #0f172a, #0f172a)",
+                    boxShadow: "0 4px 14px rgba(245,158,11,0.28)",
                   }}
                 >
                   {t.content}
@@ -356,8 +356,8 @@ export function ChatPanel({
               aria-label="إرسال"
               className="w-9 h-9 grid place-items-center rounded-[13px] text-white transition-all disabled:opacity-40 shrink-0 hover:scale-105 active:scale-95"
               style={{
-                background: "linear-gradient(135deg, #173eac, #12318a)",
-                boxShadow: "0 4px 12px rgba(23,62,172,0.32)",
+                background: "linear-gradient(135deg, #0f172a, #0f172a)",
+                boxShadow: "0 4px 12px rgba(245,158,11,0.32)",
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

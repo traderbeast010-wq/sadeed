@@ -43,129 +43,199 @@ export default function LoginPage() {
   }
 
   const field =
-    "w-full px-3.5 py-2.5 rounded-[8px] border border-[var(--color-line-strong)] bg-[var(--color-surface)] text-[13.5px] outline-none focus:border-[var(--color-brand)] transition-colors";
+    "w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-[13px] text-white placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-amber-500 transition";
 
   return (
-    <div className="min-h-dvh grid lg:grid-cols-2">
-      {/* اللوحة الخضراء */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950">
       <div
-        className="relative hidden lg:flex flex-col justify-between p-12 text-white overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(150deg, #173eac 0%, #12318a 55%, #0a2470 100%)",
-        }}
+        className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 text-slate-100 relative"
+        style={{ boxShadow: "0 30px 80px -20px rgba(0,0,0,0.7)" }}
       >
-        <div
-          className="absolute inset-0 opacity-[0.5] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(120% 90% at 15% 0%, rgba(232,163,61,0.28) 0%, transparent 45%)",
-          }}
-        />
-        <Link href="/" className="relative flex items-baseline gap-2.5">
-          <span className="text-[18px] font-bold">سديد</span>
-          <span className="text-[11px] text-white/50">Sadeed</span>
-        </Link>
-        <div className="relative">
-          <h2 className="display text-[30px] leading-[1.2]">
-            تدقيق العقود مقابل
-            <br />
-            القانون العُمانيّ
-          </h2>
-          <p className="mt-4 text-[13.5px] text-white/70 leading-relaxed max-w-sm">
-            كل حكم مستند إلى نصّ مادة، ويعمل على جهازك بلا اتصال بأي خدمة
-            خارجية.
-          </p>
-        </div>
-        <p className="relative text-[11px] text-white/45">
-          أداة مساعدة للمحامي المرخّص — القرار والمسؤولية على المحامي وحده.
-        </p>
-      </div>
-
-      {/* النموذج */}
-      <div className="flex items-center justify-center p-8">
-        <div className="w-full max-w-[360px]">
-          <div className="lg:hidden mb-8 flex items-baseline gap-2.5">
-            <span className="text-[18px] font-bold text-[var(--color-brand)]">
-              سديد
-            </span>
+        {/* الترويسة */}
+        <div className="text-center">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center mx-auto shadow-lg shadow-amber-950/60 border border-amber-500/40 text-white">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <rect
+                x="4.5"
+                y="10.5"
+                width="15"
+                height="10"
+                rx="2.2"
+                stroke="currentColor"
+                strokeWidth="1.7"
+              />
+              <path
+                d="M8 10.5V7.5a4 4 0 118 0v3"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+              />
+            </svg>
           </div>
 
-          <h1 className="display text-[22px] text-[var(--color-ink)]">
+          <div className="mt-4 flex items-baseline justify-center gap-2">
+            <span className="text-[20px] font-bold text-white">سديد</span>
+            <span className="text-[11px] text-slate-500">Sadeed</span>
+          </div>
+          <h3 className="text-[15px] font-bold text-white mt-3">
             {mode === "signup"
               ? firstRun
                 ? "إنشاء حساب المكتب"
                 : "إنشاء حساب"
-              : "تسجيل الدخول"}
-          </h1>
-          <p className="mt-1.5 text-[12.5px] text-[var(--color-ink-3)]">
+              : "تسجيل الدخول إلى بيئة المحامي"}
+          </h3>
+          <p className="text-[11.5px] text-slate-400 mt-1 leading-relaxed">
             {mode === "signup"
               ? firstRun
-                ? "أول تشغيل — أنشئ حساب المحامي."
-                : "أدخل بياناتك لإنشاء حساب."
-              : "أدخل اسم المستخدم وكلمة المرور."}
+                ? "أوّل تشغيل — أنشئ حساب المحامي المعتمد."
+                : "أدخل بياناتك لإنشاء حساب جديد."
+              : "بيانات دخولك محفوظة محلياً على الخادم."}
           </p>
+        </div>
 
-          {error && (
-            <div className="mt-4 px-3.5 py-2.5 rounded-[8px] border-s-2 border-[var(--color-violation)] bg-[var(--color-violation-bg)]">
-              <p className="text-[12px] text-[var(--color-violation)] font-medium">
-                {error}
-              </p>
-            </div>
-          )}
-
-          <form onSubmit={onSubmit} className="mt-6 space-y-3">
-            {mode === "signup" && (
+        {/* النموذج */}
+        <form onSubmit={onSubmit} className="mt-6 space-y-4">
+          {mode === "signup" && (
+            <div>
+              <label className="block text-[11.5px] font-semibold text-slate-300 mb-1.5">
+                اسم المحامي المعتمد
+              </label>
               <input
                 className={field}
-                placeholder="الاسم الكامل (يظهر على التقارير)"
+                placeholder="يظهر على التقارير والفواتير"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 autoComplete="name"
               />
-            )}
+            </div>
+          )}
+          <div>
+            <label className="block text-[11.5px] font-semibold text-slate-300 mb-1.5">
+              اسم المستخدم
+            </label>
             <input
               className={field}
-              placeholder="اسم المستخدم"
+              placeholder="اسم الدخول"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
             />
+          </div>
+          <div>
+            <label className="block text-[11.5px] font-semibold text-slate-300 mb-1.5">
+              كلمة المرور
+            </label>
             <input
               className={field}
               type="password"
-              placeholder="كلمة المرور"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              autoComplete={
+                mode === "signup" ? "new-password" : "current-password"
+              }
             />
-            <button
-              type="submit"
-              disabled={busy || !username.trim() || !password}
-              className="w-full py-2.5 rounded-[8px] bg-[var(--color-brand)] text-white text-[13.5px] font-semibold hover:bg-[var(--color-brand-2)] disabled:opacity-40 transition-colors"
-            >
+          </div>
+
+          {error && (
+            <div className="flex items-center gap-2 text-[12px] text-rose-400 bg-rose-950/40 p-2.5 rounded-lg border border-rose-900/40">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="shrink-0"
+              >
+                <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
+                <path
+                  d="M12 7.5v5M12 16h.01"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span>{error}</span>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={busy || !username.trim() || !password}
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-semibold text-[13px] transition-all shadow-md shadow-amber-950/50 flex items-center justify-center gap-2 disabled:opacity-40"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 3l7 3.5v5.2c0 4.3-3 7.4-7 8.3-4-.9-7-4-7-8.3V6.5L12 3z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M9 12l2.1 2.1L15 10"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>
               {busy
-                ? "…"
+                ? "جارٍ…"
                 : mode === "signup"
                   ? "إنشاء الحساب والدخول"
                   : "دخول"}
-            </button>
-          </form>
+            </span>
+          </button>
 
           {!firstRun && (
-            <p className="mt-5 text-[12px] text-[var(--color-ink-3)] text-center">
+            <p className="text-[12px] text-slate-400 text-center pt-1">
               {mode === "signup" ? "لديك حساب؟ " : "ليس لديك حساب؟ "}
               <button
+                type="button"
                 onClick={() => {
                   setMode(mode === "signup" ? "login" : "signup");
                   setError(null);
                 }}
-                className="text-[var(--color-brand)] font-semibold hover:underline"
+                className="text-amber-400 font-semibold hover:text-amber-300"
               >
                 {mode === "signup" ? "تسجيل الدخول" : "أنشئ حساباً"}
               </button>
             </p>
           )}
+        </form>
+
+        {/* تذييل أمنيّ */}
+        <div className="mt-5 pt-4 border-t border-slate-800/80 text-center">
+          <div className="flex items-center justify-center gap-1.5 text-[11px] text-amber-400">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="text-emerald-400"
+            >
+              <path
+                d="M12 3l7 3.5v5.2c0 4.3-3 7.4-7 8.3-4-.9-7-4-7-8.3V6.5L12 3z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M9 12l2.1 2.1L15 10"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>يعمل محلياً — لا يتّصل بأي خدمة ذكاء اصطناعيّ خارجية</span>
+          </div>
+          <Link
+            href="/"
+            className="inline-block mt-3 text-[11px] text-slate-500 hover:text-slate-300"
+          >
+            ← العودة للصفحة الرئيسية
+          </Link>
         </div>
       </div>
     </div>

@@ -31,7 +31,7 @@ export function ScorePanel({
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(150deg, #173eac 0%, #12318a 55%, #0a2470 100%)",
+                "linear-gradient(150deg, #0f172a 0%, #0f172a 55%, #3a2408 100%)",
             }}
           />
           <div
@@ -62,7 +62,7 @@ export function ScorePanel({
                 </>
               )}
             </div>
-            <span className="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-[0_2px_8px_rgba(10,36,112,0.25)]">
+            <span className="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.25)]">
               <span
                 className="w-1.5 h-1.5 rounded-full"
                 style={{ background: GRADE_COLOR[score.grade] ?? "var(--color-neutral)" }}
