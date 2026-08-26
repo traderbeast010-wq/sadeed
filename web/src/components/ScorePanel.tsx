@@ -31,14 +31,14 @@ export function ScorePanel({
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(150deg, #1c5c46 0%, #164a38 55%, #0f3527 100%)",
+                "linear-gradient(150deg, #173eac 0%, #12318a 55%, #0a2470 100%)",
             }}
           />
           <div
             className="absolute inset-0 opacity-[0.55] pointer-events-none"
             style={{
               background:
-                "radial-gradient(115% 80% at 14% 0%, rgba(156,124,63,0.30) 0%, transparent 50%)",
+                "radial-gradient(115% 80% at 14% 0%, rgba(232,163,61,0.30) 0%, transparent 50%)",
             }}
           />
           <div className="relative p-6 text-center md:text-start">
@@ -62,7 +62,7 @@ export function ScorePanel({
                 </>
               )}
             </div>
-            <span className="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-[0_2px_8px_rgba(15,53,39,0.25)]">
+            <span className="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-[0_2px_8px_rgba(10,36,112,0.25)]">
               <span
                 className="w-1.5 h-1.5 rounded-full"
                 style={{ background: GRADE_COLOR[score.grade] ?? "var(--color-neutral)" }}

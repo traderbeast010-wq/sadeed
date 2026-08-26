@@ -51,12 +51,12 @@ export default function Dashboard() {
   return (
     <div className="mx-auto max-w-[1080px] px-8 pb-16">
       {/* لوحة الاستقبال — الأخضر العُمانيّ توقيعُ المنتج */}
-      <div className="relative mt-8 overflow-hidden rounded-[20px] text-white shadow-[0_20px_60px_-20px_rgba(15,53,39,0.55)]">
+      <div className="relative mt-8 overflow-hidden rounded-[20px] text-white shadow-[0_20px_60px_-20px_rgba(10,36,112,0.55)]">
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(135deg, #1c5c46 0%, #164a38 52%, #0f3527 100%)",
+              "linear-gradient(135deg, #173eac 0%, #12318a 52%, #0a2470 100%)",
           }}
         />
         {/* توهّج ذهبيّ خفيف + بريق علويّ */}
@@ -64,7 +64,7 @@ export default function Dashboard() {
           className="absolute inset-0 opacity-[0.5] pointer-events-none"
           style={{
             background:
-              "radial-gradient(120% 90% at 12% 0%, rgba(156,124,63,0.28) 0%, transparent 45%), radial-gradient(90% 80% at 100% 120%, rgba(255,255,255,0.06) 0%, transparent 50%)",
+              "radial-gradient(120% 90% at 12% 0%, rgba(232,163,61,0.28) 0%, transparent 45%), radial-gradient(90% 80% at 100% 120%, rgba(255,255,255,0.06) 0%, transparent 50%)",
           }}
         />
         <div className="relative px-9 sm:px-11 py-11">
@@ -97,7 +97,7 @@ export default function Dashboard() {
                   مادة مفهرَسة
                 </p>
               </div>
-              <div className="w-px bg-[rgba(156,124,63,0.55)]" />
+              <div className="w-px bg-[rgba(232,163,61,0.55)]" />
               <div className="text-end">
                 <p className="tnum text-[32px] font-bold leading-none">
                   {corpus?.lawCount ?? "٧"}
@@ -157,7 +157,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-6">
                 <button
                   onClick={() => fileRef.current?.click()}
-                  className="group shrink-0 inline-flex items-center gap-2.5 px-5 py-3 rounded-[10px] bg-[var(--color-brand)] text-white text-[13.5px] font-semibold shadow-[0_6px_18px_-6px_rgba(28,92,70,0.6)] hover:bg-[var(--color-brand-2)] transition-colors"
+                  className="group shrink-0 inline-flex items-center gap-2.5 px-5 py-3 rounded-[10px] bg-[var(--color-brand)] text-white text-[13.5px] font-semibold shadow-[0_6px_18px_-6px_rgba(23,62,172,0.6)] hover:bg-[var(--color-brand-2)] transition-colors"
                 >
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
                     <path

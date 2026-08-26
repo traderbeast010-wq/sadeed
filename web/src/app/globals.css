@@ -1,69 +1,69 @@
 @import "tailwindcss";
 
 /*
-  سديد — نظام التصميم (Editorial)
+  سديد — نظام التصميم (Legal-Tech)
 
-  الفخامة من الفراغ والطباعة والتفاصيل الدقيقة، لا من الزخرفة.
-  أبيض نقيّ، مساحات واسعة، خطوط شعرية رفيعة، لمسة ذهب نادرة، وحركة
-  هادئة جداً. إحساس مجلّة فاخرة أو مكتب محاماة راقٍ.
+  ثيم فاتح بلوحة كُحليّة/زرقاء قانونية، بلمسة كهرمانية، وأرقام أحاديّة
+  المسافة (mono). حوافّ ناعمة، أسطح نظيفة، وظلال بمسحة كُحليّة خفيفة.
 */
 
 @theme {
   --font-arabic: "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
 
-  /* أبيض نقيّ بطبقات دقيقة جداً */
-  --color-canvas: #fcfcfb;
+  /* أسطح فاتحة بلمسة زرقاء */
+  --color-canvas: #f6f8fc;
   --color-surface: #ffffff;
-  --color-surface-2: #f7f7f5;
-  --color-surface-3: #f0f0ed;
+  --color-surface-2: #eef2fa;
+  --color-surface-3: #e7ecf6;
 
-  /* خطوط شعرية — رفيعة وفاتحة */
-  --color-line: #ececea;
-  --color-line-soft: #f3f3f1;
-  --color-line-strong: #dcdcd8;
+  /* خطوط فاصلة */
+  --color-line: #e3e8f2;
+  --color-line-soft: #eef1f8;
+  --color-line-strong: #d3daea;
 
-  /* الحبر — أسود دافئ عميق، تدرّج واضح */
-  --color-ink: #1a1a17;
-  --color-ink-2: #4a4a45;
-  --color-ink-3: #7a7a72;
-  --color-ink-4: #a8a89f;
-  --color-ink-ghost: #cacac2;
+  /* الحبر — كُحليّ عميق متدرّج */
+  --color-ink: #040f47;
+  --color-ink-2: #2e3560;
+  --color-ink-3: #5b5f78;
+  --color-ink-4: #8a8fa6;
+  --color-ink-ghost: #b9bece;
 
-  /* التوقيع — أخضر عُمانيّ مكتوم راقٍ + ذهب نادر */
-  --color-brand: #1c5c46;
-  --color-brand-2: #164a38;
-  --color-brand-deep: #0f3527;
-  --color-brand-tint: #eef4f1;
-  --color-brand-tint-2: #e2ede8;
-  --color-brand-ring: #c5dbd1;
-  --color-accent: #9c7c3f;
-  --color-accent-2: #866a34;
-  --color-accent-tint: #f6f1e6;
+  /* التوقيع — أزرق قانونيّ + كهرمان */
+  --color-brand: #173eac;
+  --color-brand-2: #12318a;
+  --color-brand-deep: #0a2470;
+  --color-brand-tint: #eaf0fc;
+  --color-brand-tint-2: #dbe6fa;
+  --color-brand-ring: #b9ccf0;
+  --color-accent: #e8a33d;
+  --color-accent-2: #c9852a;
+  --color-accent-tint: #fbf2e3;
 
-  /* أحكام التدقيق — مكتومة راقية */
-  --color-violation: #a83a34;
-  --color-violation-bg: #faf0ef;
-  --color-violation-ring: #ecd0cd;
-  --color-deficient: #9c7423;
-  --color-deficient-bg: #faf4e6;
-  --color-deficient-ring: #e8d9b5;
-  --color-compliant: #2d6b4f;
-  --color-compliant-bg: #eef4f1;
-  --color-compliant-ring: #c5dbd1;
-  --color-neutral: #86867d;
-  --color-neutral-bg: #f3f3f1;
-  --color-neutral-ring: #dfdfd9;
+  /* أحكام التدقيق */
+  --color-violation: #d64545;
+  --color-violation-bg: #fbeded;
+  --color-violation-ring: #f1cfcf;
+  --color-deficient: #b0790f;
+  --color-deficient-bg: #fbf3e4;
+  --color-deficient-ring: #ebd6ae;
+  --color-compliant: #1f9e86;
+  --color-compliant-bg: #e6f7f3;
+  --color-compliant-ring: #b4e4d9;
+  --color-neutral: #6b7192;
+  --color-neutral-bg: #eef1f8;
+  --color-neutral-ring: #d9dfee;
 
-  /* ظلال — رقيقة جداً، بالكاد تُرى */
-  --shadow-xs: 0 1px 2px rgba(26, 26, 23, 0.03);
-  --shadow-sm: 0 1px 3px rgba(26, 26, 23, 0.04);
-  --shadow-md: 0 4px 16px rgba(26, 26, 23, 0.05);
-  --shadow-lg: 0 16px 48px rgba(26, 26, 23, 0.08);
-  --shadow-xl: 0 32px 80px rgba(26, 26, 23, 0.12);
+  /* ظلال — بمسحة كُحليّة */
+  --shadow-xs: 0 1px 2px rgba(4, 15, 71, 0.05);
+  --shadow-sm: 0 1px 3px rgba(4, 15, 71, 0.06);
+  --shadow-md: 0 6px 20px rgba(4, 15, 71, 0.08);
+  --shadow-lg: 0 16px 44px rgba(4, 15, 71, 0.12);
+  --shadow-xl: 0 30px 70px rgba(4, 15, 71, 0.16);
 
-  --radius: 4px;
-  --radius-sm: 3px;
-  --radius-lg: 8px;
+  --radius: 10px;
+  --radius-sm: 7px;
+  --radius-lg: 16px;
   --radius-full: 999px;
 }
 
@@ -101,21 +101,25 @@ body {
   background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-arabic);
-  font-feature-settings: "tnum" 1, "ss01" 1;
-  letter-spacing: -0.011em;
+  letter-spacing: 0;
   line-height: 1.6;
 }
 
-.tnum { font-variant-numeric: tabular-nums; }
-
-/* عنوان editorial — كبير، رفيع، متباعد الحروف قليلاً */
-.display {
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+/* أرقام أحاديّة المسافة (mono) — توقيع legal-tech */
+.tnum {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0;
 }
 
-/* خطّ شعريّ فاصل */
+/* عنوان — قويّ، متماسك */
+.display {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+/* خطّ فاصل */
 .hairline { border-color: var(--color-line); }
 .rule-y {
   border-top: 1px solid var(--color-line);
@@ -128,18 +132,23 @@ body {
   border-radius: var(--radius);
 }
 
-.verdict-edge { border-inline-start: 2px solid currentColor; }
+.card-shadow {
+  box-shadow: 0 1px 2px rgba(4, 15, 71, 0.06), 0 8px 24px rgba(4, 15, 71, 0.06);
+}
 
-::selection { background: var(--color-brand); color: #fff; }
+.verdict-edge { border-inline-start: 3px solid currentColor; }
 
-::-webkit-scrollbar { width: 10px; height: 10px; }
+::selection { background: var(--color-accent); color: #fff; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-line-strong);
-  border: 3px solid transparent;
+  background: rgba(91, 95, 120, 0.28);
+  border: 2px solid transparent;
   background-clip: padding-box;
   border-radius: var(--radius-full);
 }
+::-webkit-scrollbar-thumb:hover { background: rgba(23, 62, 172, 0.5); }
 
 /* الحركات — بطيئة وأنيقة */
 @keyframes settle {

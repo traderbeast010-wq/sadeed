@@ -145,14 +145,14 @@ export function ChatPanel({
           className="shrink-0 relative px-5 pt-4 pb-4"
           style={{
             background:
-              "linear-gradient(135deg, #1c5c46 0%, #164a38 55%, #0f3527 100%)",
+              "linear-gradient(135deg, #173eac 0%, #12318a 55%, #0a2470 100%)",
           }}
         >
           <div
             className="absolute inset-0 opacity-70 pointer-events-none"
             style={{
               background:
-                "radial-gradient(300px 120px at 88% -30%, rgba(156,124,63,0.4), transparent), radial-gradient(240px 120px at 10% 130%, rgba(255,255,255,0.12), transparent)",
+                "radial-gradient(300px 120px at 88% -30%, rgba(232,163,61,0.4), transparent), radial-gradient(240px 120px at 10% 130%, rgba(255,255,255,0.12), transparent)",
             }}
           />
           <div className="relative flex items-center gap-3">
@@ -185,7 +185,7 @@ export function ChatPanel({
                 <h2 className="text-[14px] font-bold text-white leading-none">
                   المساعد القانوني
                 </h2>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80] shadow-[0_0_6px_#4ade80]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3fd9c0] shadow-[0_0_6px_#3fd9c0]" />
               </div>
               <p className="text-[10.5px] text-white/55 mt-1 leading-none">
                 يجيب من العقد والقانون فقط
@@ -211,18 +211,18 @@ export function ChatPanel({
                 <div
                   className="w-16 h-16 mx-auto mb-4 rounded-[20px] grid place-items-center"
                   style={{
-                    background: "linear-gradient(135deg, #eef4f1, #e2ede8)",
-                    boxShadow: "inset 0 0 0 1px rgba(28,92,70,0.12)",
+                    background: "linear-gradient(135deg, #eaf0fc, #dbe6fa)",
+                    boxShadow: "inset 0 0 0 1px rgba(23,62,172,0.12)",
                   }}
                 >
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M12 3l7 3.5v5.2c0 4.3-3 7.4-7 8.3-4-.9-7-4-7-8.3V6.5L12 3z"
-                      stroke="#1c5c46"
+                      stroke="#173eac"
                       strokeWidth="1.4"
                       strokeLinejoin="round"
                     />
-                    <path d="M9 12l2.1 2.1L15 10" stroke="#1c5c46" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M9 12l2.1 2.1L15 10" stroke="#173eac" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <p className="text-[13px] text-[var(--color-ink-2)] leading-relaxed max-w-[280px] mx-auto">
@@ -239,7 +239,7 @@ export function ChatPanel({
                     style={{
                       background: "var(--color-surface)",
                       boxShadow:
-                        "0 2px 8px rgba(10,16,22,0.06), inset 0 0 0 1px rgba(28,92,70,0.18)",
+                        "0 2px 8px rgba(10,16,22,0.06), inset 0 0 0 1px rgba(23,62,172,0.18)",
                       animationDelay: `${i * 70}ms`,
                     }}
                   >
@@ -256,8 +256,8 @@ export function ChatPanel({
                 <div
                   className="max-w-[82%] px-4 py-2.5 text-[12.5px] leading-[1.7] text-white rounded-[18px] rounded-ss-[6px]"
                   style={{
-                    background: "linear-gradient(135deg, #1c5c46, #164a38)",
-                    boxShadow: "0 4px 14px rgba(28,92,70,0.28)",
+                    background: "linear-gradient(135deg, #173eac, #12318a)",
+                    boxShadow: "0 4px 14px rgba(23,62,172,0.28)",
                   }}
                 >
                   {t.content}
@@ -356,8 +356,8 @@ export function ChatPanel({
               aria-label="إرسال"
               className="w-9 h-9 grid place-items-center rounded-[13px] text-white transition-all disabled:opacity-40 shrink-0 hover:scale-105 active:scale-95"
               style={{
-                background: "linear-gradient(135deg, #1c5c46, #164a38)",
-                boxShadow: "0 4px 12px rgba(28,92,70,0.32)",
+                background: "linear-gradient(135deg, #173eac, #12318a)",
+                boxShadow: "0 4px 12px rgba(23,62,172,0.32)",
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

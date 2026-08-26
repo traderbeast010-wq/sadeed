@@ -52,14 +52,14 @@ export default function LoginPage() {
         className="relative hidden lg:flex flex-col justify-between p-12 text-white overflow-hidden"
         style={{
           background:
-            "linear-gradient(150deg, #1c5c46 0%, #164a38 55%, #0f3527 100%)",
+            "linear-gradient(150deg, #173eac 0%, #12318a 55%, #0a2470 100%)",
         }}
       >
         <div
           className="absolute inset-0 opacity-[0.5] pointer-events-none"
           style={{
             background:
-              "radial-gradient(120% 90% at 15% 0%, rgba(156,124,63,0.28) 0%, transparent 45%)",
+              "radial-gradient(120% 90% at 15% 0%, rgba(232,163,61,0.28) 0%, transparent 45%)",
           }}
         />
         <Link href="/" className="relative flex items-baseline gap-2.5">

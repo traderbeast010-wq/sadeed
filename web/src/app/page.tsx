@@ -70,19 +70,19 @@ export default function Home() {
 
       {/* البطل */}
       <section className="mx-auto max-w-[1080px] px-6">
-        <div className="relative mt-10 overflow-hidden rounded-[24px] text-white shadow-[0_24px_70px_-24px_rgba(15,53,39,0.6)]">
+        <div className="relative mt-10 overflow-hidden rounded-[24px] text-white shadow-[0_24px_70px_-24px_rgba(10,36,112,0.6)]">
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(135deg, #1c5c46 0%, #164a38 52%, #0f3527 100%)",
+                "linear-gradient(135deg, #173eac 0%, #12318a 52%, #0a2470 100%)",
             }}
           />
           <div
             className="absolute inset-0 opacity-[0.5] pointer-events-none"
             style={{
               background:
-                "radial-gradient(120% 90% at 12% 0%, rgba(156,124,63,0.30) 0%, transparent 45%), radial-gradient(90% 80% at 100% 120%, rgba(255,255,255,0.06) 0%, transparent 50%)",
+                "radial-gradient(120% 90% at 12% 0%, rgba(232,163,61,0.30) 0%, transparent 45%), radial-gradient(90% 80% at 100% 120%, rgba(255,255,255,0.06) 0%, transparent 50%)",
             }}
           />
           <div className="relative px-8 sm:px-14 py-16 sm:py-20 max-w-2xl">

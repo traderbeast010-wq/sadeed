@@ -135,8 +135,8 @@ export default function AssistantPage() {
             className="w-11 h-11 rounded-[13px] grid place-items-center shrink-0"
             style={{
               background:
-                "linear-gradient(135deg, #1c5c46 0%, #164a38 55%, #0f3527 100%)",
-              boxShadow: "0 6px 16px -6px rgba(28,92,70,0.5)",
+                "linear-gradient(135deg, #173eac 0%, #12318a 55%, #0a2470 100%)",
+              boxShadow: "0 6px 16px -6px rgba(23,62,172,0.5)",
             }}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -183,7 +183,7 @@ export default function AssistantPage() {
                   style={{
                     background: "var(--color-surface)",
                     boxShadow:
-                      "0 2px 8px rgba(10,16,22,0.06), inset 0 0 0 1px rgba(28,92,70,0.18)",
+                      "0 2px 8px rgba(10,16,22,0.06), inset 0 0 0 1px rgba(23,62,172,0.18)",
                     animationDelay: `${i * 70}ms`,
                   }}
                 >
@@ -200,8 +200,8 @@ export default function AssistantPage() {
               <div
                 className="max-w-[80%] px-4 py-2.5 text-[13px] leading-[1.7] text-white rounded-[18px] rounded-ss-[6px]"
                 style={{
-                  background: "linear-gradient(135deg, #1c5c46, #164a38)",
-                  boxShadow: "0 4px 14px rgba(28,92,70,0.28)",
+                  background: "linear-gradient(135deg, #173eac, #12318a)",
+                  boxShadow: "0 4px 14px rgba(23,62,172,0.28)",
                 }}
               >
                 {t.content}
@@ -320,8 +320,8 @@ export default function AssistantPage() {
             aria-label="إرسال"
             className="w-10 h-10 grid place-items-center rounded-[13px] text-white transition-all disabled:opacity-40 shrink-0 hover:scale-105 active:scale-95"
             style={{
-              background: "linear-gradient(135deg, #1c5c46, #164a38)",
-              boxShadow: "0 4px 12px rgba(28,92,70,0.32)",
+              background: "linear-gradient(135deg, #173eac, #12318a)",
+              boxShadow: "0 4px 12px rgba(23,62,172,0.32)",
             }}
           >
             <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
