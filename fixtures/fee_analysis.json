@@ -1,0 +1,474 @@
+{
+  "filename": "fee_contract.docx",
+  "laws": [
+    {
+      "law_id": "OM-BASIC-LAW",
+      "law_name": "النظام الأساسي للدولة",
+      "decree_no": "6/2021",
+      "issued": "2021-01-11",
+      "domains": [
+        "civil",
+        "employment",
+        "commercial",
+        "lease",
+        "tenders"
+      ],
+      "article_count": 98,
+      "source_file": "basic-law.pdf"
+    },
+    {
+      "law_id": "OM-CIVIL-29-2013",
+      "law_name": "قانون المعاملات المدنية",
+      "decree_no": "29/2013",
+      "issued": "2013-05-06",
+      "domains": [
+        "civil",
+        "employment",
+        "commercial",
+        "lease",
+        "tenders"
+      ],
+      "article_count": 1086,
+      "source_file": "civil-29-2013.pdf"
+    },
+    {
+      "law_id": "OM-COMMERCE-55-1990",
+      "law_name": "قانون التجارة",
+      "decree_no": "55/90",
+      "issued": "1990-06-01",
+      "domains": [
+        "commercial"
+      ],
+      "article_count": 578,
+      "source_file": "commerce-55-1990.pdf"
+    },
+    {
+      "law_id": "OM-FAMILY-32-1997",
+      "law_name": "قانون الأحوال الشخصية",
+      "decree_no": "32/97",
+      "issued": "1997-06-04",
+      "domains": [
+        "family"
+      ],
+      "article_count": 282,
+      "source_file": "family-32-1997.pdf"
+    },
+    {
+      "law_id": "OM-JUDICIARY-35-2022",
+      "law_name": "تنظيم إدارة شؤون القضاء",
+      "decree_no": "35/2022",
+      "issued": "2022-05-30",
+      "domains": [
+        "judiciary"
+      ],
+      "article_count": 13,
+      "source_file": "judiciary-35-2022.pdf"
+    },
+    {
+      "law_id": "OM-LABOUR-53-2023",
+      "law_name": "قانون العمل",
+      "decree_no": "53/2023",
+      "issued": "2023-07-25",
+      "domains": [
+        "employment"
+      ],
+      "article_count": 150,
+      "source_file": "labour-53-2023.pdf"
+    },
+    {
+      "law_id": "OM-PENAL-7-2018",
+      "law_name": "قانون الجزاء",
+      "decree_no": "7/2018",
+      "issued": "2018-01-14",
+      "domains": [
+        "penal"
+      ],
+      "article_count": 389,
+      "source_file": "penal-7-2018.pdf"
+    }
+  ],
+  "article_count": 2596,
+  "clause_count": 10,
+  "summary": {
+    "مخالف": 0,
+    "ناقص": 0,
+    "سليم": 0,
+    "لا مادة ذات صلة": 10
+  },
+  "score": {
+    "overall": null,
+    "grade": "خارج النطاق",
+    "note": "لم يجد النظام في القوانين المتاحة ما ينظّم بنود هذا العقد. غالباً نوعٌ من العقود يحكمه قانون غير مُستوعَب بعد. الدرجة لا تنطبق.",
+    "compliance": {
+      "score": 100,
+      "weight": 0.6,
+      "counts": {
+        "مخالف": 0,
+        "ناقص": 0,
+        "سليم": 0,
+        "لا مادة ذات صلة": 10
+      },
+      "penalty": 0
+    },
+    "completeness": {
+      "score": 58,
+      "weight": 0.4,
+      "required_present": "5.5/7.5",
+      "recommended_present": "0.5/4.5",
+      "missing": [
+        {
+          "key": "job",
+          "label": "نوع العمل وشروطه ومدة العقد",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "respect",
+          "label": "احترام الأديان وقوانين السلطنة وعاداتها",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "hours",
+          "label": "ساعات العمل",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "leave",
+          "label": "الإجازات",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "probation",
+          "label": "فترة الاختبار",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "termination",
+          "label": "إنهاء العقد",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "confidential",
+          "label": "السرية",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        }
+      ],
+      "present": [
+        {
+          "key": "employer",
+          "label": "اسم صاحب العمل والمنشأة وعنوان مكان العمل",
+          "required": true
+        },
+        {
+          "key": "worker",
+          "label": "اسم العامل وبياناته الشخصية",
+          "required": true
+        },
+        {
+          "key": "wage",
+          "label": "الأجر الأساسي والعلاوات وموعد أدائه",
+          "required": true
+        },
+        {
+          "key": "notice",
+          "label": "مدة الإخطار (لا تقل عن شهر من صاحب العمل)",
+          "required": true
+        },
+        {
+          "key": "disputes",
+          "label": "تسوية المنازعات",
+          "required": false
+        }
+      ]
+    },
+    "basis": "كل البنود خارج نطاق القوانين المتاحة — لا تدقيق فعليّ.",
+    "coverage": {
+      "evaluated": 0,
+      "total": 10
+    }
+  },
+  "clauses": [
+    {
+      "clause_id": "c1",
+      "heading": "أولا",
+      "text": "يقوم الطرف الأول بنفسه أو من ينوب عنه بمباشرة دعوى مشاريع نجم المدينة ضد أرض العين الحديثة وكذلك المثول و الدفاع والمرافعة نيابة عن الطرف الثاني و يشمل هذا العقد تمثله في الدعوى في المحكمة الابتدائية ومحكمة الاستئناف و المحكمة العليا.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مواد معطاة تتناول موضوع تمثيل أحد الأطراف نيابة عن الآخر في الدعاوى القضائية.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 263
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 267
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 26.7
+    },
+    {
+      "clause_id": "c2",
+      "heading": "ثانيا",
+      "text": "حددت الأتعاب بمبلغ وقدره(1500ر.ع) الف وخمسمائة ريال عماني يدفع مقدم مبلغ(750ر.ع) سبعمائة وخمسون ريال عماني، والدفعة الثانية بمبلغ(750ر.ع) سبعمائة وخمسون ريال عماني تدفع عن صدور الحكم الابتدائي ولا يبأشر المكتب اجراءات الدعوى في الاستئناف إلا بعد استلام المبلغ المتبقي كاملا(750ر.ع) سبعمائة وخمسون ريال عماني .",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مادة من المواد المعطاة تتناول موضوع تحديد الأتعاب أو شروط الدفع في عقود العمل.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون الجزاء",
+          "article_no": 189
+        },
+        {
+          "law_name": "قانون الجزاء",
+          "article_no": 138
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 16.8
+    },
+    {
+      "clause_id": "c3",
+      "heading": "ثالثا",
+      "text": "أقر الطرف الثاني بأن المقدم هو حق خالص للطرف الأول لا يجوز رده تحت أي مسمى.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مادة من المواد المعطاة تتناول موضوع بند الإقرار بالحق الخالص للمقدم.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 1071
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 300
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 13.9
+    },
+    {
+      "clause_id": "c4",
+      "heading": "رابعا",
+      "text": "أقر الطرف الثاني بأحقية الطرف الأول في الأتعاب كاملة حتى لو انتهت الدعوى صلحا ولم يحضر الطرف الاول أي جلسة فيها، وحتى لو لم ترفع الدعوى، وتراجع الطرف الثاني عن توكيل الطرف الأول. الطرف الأول: الطرف الثاني: مكتب عبدالله القنوبي للمحاماة",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مواد معطاة تتناول موضوع بند التنازل عن حق التوكيل أو الأتعاب في حالة انتهاء الدعوى صلحا.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 300
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 79
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 15.0
+    },
+    {
+      "clause_id": "c5",
+      "heading": "خامسا",
+      "text": "أقر الطرف الثاني بأحقية الطرف الأول في مبلغ (500ر.ع) مقابل دعوى المطالبة بمؤخر الأتعاب ولايجوز له التنصل منها.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مادة من المواد المعطاة تتناول موضوع البند المتعلق بوفاء الدين أو تعهدات الأطراف المالية.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 244
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 1005
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 13.2
+    },
+    {
+      "clause_id": "c6",
+      "heading": "سادسا",
+      "text": "يتعهد الطرف الثاني بتسليم كافة المستندات الخاصة والمطلوبة في القضية المذكورة والإدلاء بجميع المعلومات التي تخص القضية إلى الطرف الأول من تاريخ توقيع هذا العقد، وإذا تاخر عن ذلك يكون مسؤولا عما نتج عن تأخيره من الأضرار.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مواد معطاة تتناول موضوع التزامات تسليم المستندات أو المسؤولية عن التأخير في تنفيذها.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 261
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 238
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 14.6
+    },
+    {
+      "clause_id": "c7",
+      "heading": "سابعا",
+      "text": "لا يتم اتخاذ أي إجراء في القضية من الطرف الثاني إلا بعد إطلاع الطرف الأول عليه وإبداء موافقته على ذلك، وإذا اتخذت أي إجراءات مخالفة لذلك وبدون موافقة الطرف الاول يتعبر هذا الاتفاق لاغيا ويلزم الطرف الثاني بدفع باقي الأتعاب المتفق عليها.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مادة من المواد المعطاة تتناول موضوع بند الإجراء التقاضي أو الإجراء الإداري.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 79
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 158
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 14.3
+    },
+    {
+      "clause_id": "c8",
+      "heading": "ثامنا",
+      "text": "في حال نشوء أي نزاع في أتعاب المحاماة، فإن المحاكم المختصة بنظر النزاع محاكم ولاية إبراء (إبتدائي واستئناف)",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مادة معطاة تنظم اختصاص المحاكم في النزاعات المتعلقة بأتعاب المحاماة.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 23
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 10
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 13.6
+    },
+    {
+      "clause_id": "c9",
+      "heading": "تاسعا",
+      "text": "اتفق الطرفان بأن الأتعاب التي تقضي بها المحكمة في الدعوى هي حق خالص للطرف الأول ولا تخصم من الأتعاب المتفق عليها هذا العقد.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مادة من المواد المعطاة تتناول موضوع الأتعاب القضائية أو كيفية خصمها من الأتعاب المتفق عليها في العقد.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 79
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 445
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 14.7
+    },
+    {
+      "clause_id": "c10",
+      "heading": "عاشرا",
+      "text": "في حال عدم تجاوب الطرف الثاني مع الطرف الأول سواء سداد رسوم الدعاوى أو الحضور للمكتب أو في حال عدم الالتزام بالدفعات المتفق عليها بحق للمكتب ترك الوكالة وعدم تمثيل الطرف الثاني بعد شهر من إنذاره وإن قام بتصحيح أوضاعه. آحدي عشر: في حال تم اعادة الدعوى من المحكمة العليا بهيئة مغايرة سواء ابتدائي أو استئناف فأن المكتب غير مسؤول عن متابعة الدعوى إلا بعقد واتفاق جديدين. ثان عشر: يقوم الطرف الاول الأول بالتواصل مع الطرف الثاني لإعطائه تحديث مستمره حول الدعوى ويتم تزويده بكافة المستندات المقدمة من قبلنا ومن قبل الخصم. الطرف الأول: الطرف الثاني: مكتب عبدالله القنوبي للمحاماة التوقيع :",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مواد معطاة تتناول موضوع بند المسؤولية عن متابعة الدعاوى أو التزامات التواصل بين الأطراف.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 171
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 711
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 16.8
+    }
+  ],
+  "guard_log": [],
+  "top_k": 2,
+  "routing": [
+    {
+      "law_id": "OM-CIVIL-29-2013",
+      "law_name": "قانون المعاملات المدنية",
+      "similarity": 0.5468,
+      "weight": 1.0,
+      "article_count": 1086
+    },
+    {
+      "law_id": "OM-COMMERCE-55-1990",
+      "law_name": "قانون التجارة",
+      "similarity": 0.5166,
+      "weight": 0.5,
+      "article_count": 578
+    },
+    {
+      "law_id": "OM-LABOUR-53-2023",
+      "law_name": "قانون العمل",
+      "similarity": 0.5073,
+      "weight": 0.5,
+      "article_count": 150
+    },
+    {
+      "law_id": "OM-FAMILY-32-1997",
+      "law_name": "قانون الأحوال الشخصية",
+      "similarity": 0.4749,
+      "weight": 0.15,
+      "article_count": 282
+    },
+    {
+      "law_id": "OM-PENAL-7-2018",
+      "law_name": "قانون الجزاء",
+      "similarity": 0.4695,
+      "weight": 0.15,
+      "article_count": 389
+    },
+    {
+      "law_id": "OM-BASIC-LAW",
+      "law_name": "النظام الأساسي للدولة",
+      "similarity": 0.4557,
+      "weight": 0.15,
+      "article_count": 98
+    },
+    {
+      "law_id": "OM-JUDICIARY-35-2022",
+      "law_name": "تنظيم إدارة شؤون القضاء",
+      "similarity": 0.4288,
+      "weight": 0.15,
+      "article_count": 13
+    }
+  ],
+  "elapsed_seconds": 165.7,
+  "approved_by": null,
+  "approved_at": null
+}

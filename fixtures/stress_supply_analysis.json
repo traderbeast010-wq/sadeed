@@ -1,0 +1,366 @@
+{
+  "filename": "stress_supply.txt",
+  "laws": [
+    {
+      "law_id": "OM-BASIC-LAW",
+      "law_name": "النظام الأساسي للدولة",
+      "decree_no": "6/2021",
+      "issued": "2021-01-11",
+      "domains": [
+        "civil",
+        "employment",
+        "commercial",
+        "lease",
+        "tenders"
+      ],
+      "article_count": 98,
+      "source_file": "basic-law.pdf"
+    },
+    {
+      "law_id": "OM-CIVIL-29-2013",
+      "law_name": "قانون المعاملات المدنية",
+      "decree_no": "29/2013",
+      "issued": "2013-05-06",
+      "domains": [
+        "civil",
+        "employment",
+        "commercial",
+        "lease",
+        "tenders"
+      ],
+      "article_count": 1086,
+      "source_file": "civil-29-2013.pdf"
+    },
+    {
+      "law_id": "OM-COMMERCE-55-1990",
+      "law_name": "قانون التجارة",
+      "decree_no": "55/90",
+      "issued": "1990-06-01",
+      "domains": [
+        "commercial"
+      ],
+      "article_count": 578,
+      "source_file": "commerce-55-1990.pdf"
+    },
+    {
+      "law_id": "OM-FAMILY-32-1997",
+      "law_name": "قانون الأحوال الشخصية",
+      "decree_no": "32/97",
+      "issued": "1997-06-04",
+      "domains": [
+        "family"
+      ],
+      "article_count": 282,
+      "source_file": "family-32-1997.pdf"
+    },
+    {
+      "law_id": "OM-JUDICIARY-35-2022",
+      "law_name": "تنظيم إدارة شؤون القضاء",
+      "decree_no": "35/2022",
+      "issued": "2022-05-30",
+      "domains": [
+        "judiciary"
+      ],
+      "article_count": 13,
+      "source_file": "judiciary-35-2022.pdf"
+    },
+    {
+      "law_id": "OM-LABOUR-53-2023",
+      "law_name": "قانون العمل",
+      "decree_no": "53/2023",
+      "issued": "2023-07-25",
+      "domains": [
+        "employment"
+      ],
+      "article_count": 150,
+      "source_file": "labour-53-2023.pdf"
+    },
+    {
+      "law_id": "OM-PENAL-7-2018",
+      "law_name": "قانون الجزاء",
+      "decree_no": "7/2018",
+      "issued": "2018-01-14",
+      "domains": [
+        "penal"
+      ],
+      "article_count": 389,
+      "source_file": "penal-7-2018.pdf"
+    }
+  ],
+  "article_count": 2596,
+  "clause_count": 4,
+  "summary": {
+    "مخالف": 2,
+    "ناقص": 0,
+    "سليم": 0,
+    "لا مادة ذات صلة": 2
+  },
+  "score": {
+    "overall": 42,
+    "grade": "مرفوض",
+    "note": "العقد يحتاج إعادة صياغة قبل التوقيع.",
+    "compliance": {
+      "score": 56,
+      "weight": 0.6,
+      "counts": {
+        "مخالف": 2,
+        "ناقص": 0,
+        "سليم": 0,
+        "لا مادة ذات صلة": 2
+      },
+      "penalty": 44
+    },
+    "completeness": {
+      "score": 20,
+      "weight": 0.4,
+      "required_present": "2.0/7.5",
+      "recommended_present": "0.0/4.5",
+      "missing": [
+        {
+          "key": "employer",
+          "label": "اسم صاحب العمل والمنشأة وعنوان مكان العمل",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "worker",
+          "label": "اسم العامل وبياناته الشخصية",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "job",
+          "label": "نوع العمل وشروطه ومدة العقد",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "notice",
+          "label": "مدة الإخطار (لا تقل عن شهر من صاحب العمل)",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "respect",
+          "label": "احترام الأديان وقوانين السلطنة وعاداتها",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "hours",
+          "label": "ساعات العمل",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "leave",
+          "label": "الإجازات",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "probation",
+          "label": "فترة الاختبار",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "termination",
+          "label": "إنهاء العقد",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "confidential",
+          "label": "السرية",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "disputes",
+          "label": "تسوية المنازعات",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        }
+      ],
+      "present": [
+        {
+          "key": "wage",
+          "label": "الأجر الأساسي والعلاوات وموعد أدائه",
+          "required": true
+        }
+      ]
+    },
+    "basis": "الامتثال من أحكام البنود · الاكتمال من المادة (36) من قانون العمل 53/2023",
+    "coverage": {
+      "evaluated": 2,
+      "total": 4
+    }
+  },
+  "clauses": [
+    {
+      "clause_id": "c1",
+      "heading": "البند الأول",
+      "text": "يتعهد المورّد بتوريد ألفي وحدة من المنتج المتفق عليه شهرياً، بسعر ثابت قدره خمسة ريالات للوحدة، لمدة ثلاث سنوات غير قابلة للإلغاء من طرف المشتري تحت أي ظرف بما في ذلك القوة القاهرة.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مواد معطاة تتناول موضوع العقد التجاري أو شروطه الأساسية مثل مدة العقد أو الإلغاء أو القوة القاهرة.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون التجارة",
+          "article_no": 115
+        },
+        {
+          "law_name": "قانون التجارة",
+          "article_no": 105
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 20.4
+    },
+    {
+      "clause_id": "c2",
+      "heading": "البند الثاني",
+      "text": "يلتزم المشتري بفحص البضاعة خلال ثلاثين يوماً من تسلّمها، وبعد هذه المدة يسقط حقّه في الرجوع بأي عيب مهما كان خفياً أو جسيماً.",
+      "verdict": "مخالف",
+      "reasoning": "البند مخالف للمادة 118 التي تنص على أن حق المشتري في الرجوع بسبب العيب لا يسقط إلا إذا لم يخطر البائع بالعيب فور كشفه، ولا يجوز السقوط إلا بعد مرور سنة من التسليم ما لم يقبل البائع ضماناً أطول، بينما البند يفرض سقوتا فورياً بعد ثلاثين أيام لكل العيوب بغض النظر عن نوعها أو كشفها.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [
+        {
+          "law_id": "OM-COMMERCE-55-1990",
+          "law_name": "قانون التجارة",
+          "decree_no": "55/90",
+          "article_no": 118,
+          "article_text": "على المشتري أن يقوم بفحص المبيع فور تسلمه وفقا للمألوف في التعامل فإذا وجد به\nعيبا فعليه أن يخطر به البائع فور كشفه ، وإلا سقط حقه في الرجوع عليه بسبب العيب .\nفإذا كان العيب مما لا يكشف عنه الفحص المعتاد ، وجب على المشتري أن يخطر به البائع\nبمجرد كشفه فعلا ، وإلا سقط حقه في الرجوع على البائع بسببه . وتتقادم دعوى ضمان\nالعيب بسنة من يوم تسليم المبيع ، ما لم يقبل البائع الالتزام بالضمان لمدة أطول . ولا\n\n يفيد البائع من السقوط أو من التقادم إذا كان قد تعمد إخفاء العيب غشا .\n2- التزامات المشتري",
+          "book": "الباب الثاني",
+          "chapter": "الفصل الأول"
+        }
+      ],
+      "considered": [
+        {
+          "law_name": "قانون التجارة",
+          "article_no": 118
+        },
+        {
+          "law_name": "قانون التجارة",
+          "article_no": 173
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 27.1
+    },
+    {
+      "clause_id": "c3",
+      "heading": "البند الثالث",
+      "text": "في حال تأخّر المشتري في السداد يوماً واحداً، يحقّ للمورّد فرض فائدة تأخير قدرها عشرة بالمائة شهرياً على المبلغ المستحق.",
+      "verdict": "مخالف",
+      "reasoning": "البند مخالف للمادة 121 التي تحصر حق البائع في حبس المبيع أو فرض فوائد تأخير في حالات محددة مثل الإفلاس أو ضعف التأمين، ولا تسمح بفرض فوائد تأخير في حال تأخر بسيط.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [
+        {
+          "law_id": "OM-COMMERCE-55-1990",
+          "law_name": "قانون التجارة",
+          "decree_no": "55/90",
+          "article_no": 121,
+          "article_text": "إذا كان الثمن كله أو بعضه يستحق الدفع في الحال ، فللبائع أن يحبس المبيع حتى يستوفي\nما هو مستحق له ولو قدم المشتري رهنا أو كفالة . هذا ما لم يمنح البائع المشتري أجلا\nبعد البيع . وكذلك يجوز للبائع أن يحبس المبيع ولو لم يحل الأجل المشترط لدفع الثمن\n\n في الأحوال الآتية :\n1- إذا حكم بإفلاس المشتري .\n2- إذا أضعف المشتري بفعله إلى حد كبير ما أعطي للبائع من تأمينات أو كان ضعف\nالتأمين راجعا إلى سبب لا دخل لإرادة المشتري فيه ولم يقدم المشتري للبائع ما\n\n يكمل التأمين .\n3- إذا لم يقدم المشتري للبائع ما وعد في العقد بتقديمه من التأمينات .\n\n - - 28",
+          "book": "الباب الثاني",
+          "chapter": "الفصل الأول"
+        }
+      ],
+      "considered": [
+        {
+          "law_name": "قانون التجارة",
+          "article_no": 56
+        },
+        {
+          "law_name": "قانون التجارة",
+          "article_no": 121
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 20.7
+    },
+    {
+      "clause_id": "c4",
+      "heading": "البند الرابع",
+      "text": "تختص محاكم دبي وحدها بأي نزاع، ويُطبّق القانون الإماراتي على هذا العقد دون سواه. حُرّر من نسختين.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مواد قانونية معطاة تتناول اختصاص المحاكم أو تحديد القانون الواجب التطبيق في النزاعات العماني.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون التجارة",
+          "article_no": 6
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 1
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 15.2
+    }
+  ],
+  "guard_log": [],
+  "top_k": 2,
+  "routing": [
+    {
+      "law_id": "OM-COMMERCE-55-1990",
+      "law_name": "قانون التجارة",
+      "similarity": 0.8879,
+      "weight": 1.0,
+      "article_count": 578
+    },
+    {
+      "law_id": "OM-CIVIL-29-2013",
+      "law_name": "قانون المعاملات المدنية",
+      "similarity": 0.8209,
+      "weight": 0.5,
+      "article_count": 1086
+    },
+    {
+      "law_id": "OM-BASIC-LAW",
+      "law_name": "النظام الأساسي للدولة",
+      "similarity": 0.6953,
+      "weight": 0.5,
+      "article_count": 98
+    },
+    {
+      "law_id": "OM-LABOUR-53-2023",
+      "law_name": "قانون العمل",
+      "similarity": 0.5412,
+      "weight": 0.15,
+      "article_count": 150
+    },
+    {
+      "law_id": "OM-PENAL-7-2018",
+      "law_name": "قانون الجزاء",
+      "similarity": 0.4789,
+      "weight": 0.15,
+      "article_count": 389
+    },
+    {
+      "law_id": "OM-FAMILY-32-1997",
+      "law_name": "قانون الأحوال الشخصية",
+      "similarity": 0.4745,
+      "weight": 0.15,
+      "article_count": 282
+    },
+    {
+      "law_id": "OM-JUDICIARY-35-2022",
+      "law_name": "تنظيم إدارة شؤون القضاء",
+      "similarity": 0.3486,
+      "weight": 0.15,
+      "article_count": 13
+    }
+  ],
+  "elapsed_seconds": 96.0,
+  "approved_by": null,
+  "approved_at": null
+}

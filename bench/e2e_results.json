@@ -1,0 +1,266 @@
+[
+  {
+    "id": "مخالف_ساعات",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      70,
+      71
+    ],
+    "cited": [
+      71
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 41.790946800028905,
+    "prefill": 29.366761705630267,
+    "p_tok": 940
+  },
+  {
+    "id": "مخالف_إضافي",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      71
+    ],
+    "cited": [
+      71
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 42.84186560002854,
+    "prefill": 24.785298251910877,
+    "p_tok": 690
+  },
+  {
+    "id": "مخالف_إجازة",
+    "expect": "مخالف",
+    "got": "ناقص",
+    "ok": false,
+    "gold": [
+      78,
+      81
+    ],
+    "cited": [
+      78
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 25.48474509996595,
+    "prefill": 26.422492949234428,
+    "p_tok": 448
+  },
+  {
+    "id": "مخالف_اختبار",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      37
+    ],
+    "cited": [
+      37
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 19.13924260000931,
+    "prefill": 28.10397211598966,
+    "p_tok": 277
+  },
+  {
+    "id": "مخالف_مرضية",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      82
+    ],
+    "cited": [
+      82
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 24.606960900011472,
+    "prefill": 23.210108189900748,
+    "p_tok": 309
+  },
+  {
+    "id": "مخالف_مكافأة",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      61
+    ],
+    "cited": [
+      61
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 23.252474099979736,
+    "prefill": 26.361744998066456,
+    "p_tok": 381
+  },
+  {
+    "id": "مخالف_لغة",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      33
+    ],
+    "cited": [
+      33
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 17.929414000012912,
+    "prefill": 26.311910384567646,
+    "p_tok": 269
+  },
+  {
+    "id": "مخالف_مدة",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      35
+    ],
+    "cited": [
+      34
+    ],
+    "cited_ok": false,
+    "guard": [],
+    "needs_review": false,
+    "sec": 22.113748400006443,
+    "prefill": 23.18799325709148,
+    "p_tok": 348
+  },
+  {
+    "id": "مخالف_خاصة",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      84
+    ],
+    "cited": [
+      84
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 29.205915900005493,
+    "prefill": 28.404766805741012,
+    "p_tok": 608
+  },
+  {
+    "id": "مخالف_رضاعة",
+    "expect": "مخالف",
+    "got": "مخالف",
+    "ok": true,
+    "gold": [
+      76
+    ],
+    "cited": [
+      76
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 15.768380200024694,
+    "prefill": 24.756751286042338,
+    "p_tok": 227
+  },
+  {
+    "id": "سليم_إجازة",
+    "expect": "سليم",
+    "got": "سليم",
+    "ok": true,
+    "gold": [
+      78
+    ],
+    "cited": [
+      78
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 21.80002040002728,
+    "prefill": 26.68435946436592,
+    "p_tok": 375
+  },
+  {
+    "id": "سليم_ساعات",
+    "expect": "سليم",
+    "got": "سليم",
+    "ok": true,
+    "gold": [
+      70
+    ],
+    "cited": [
+      70
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 26.46325530001195,
+    "prefill": 28.422366173182223,
+    "p_tok": 533
+  },
+  {
+    "id": "سليم_اختبار",
+    "expect": "سليم",
+    "got": "مخالف",
+    "ok": false,
+    "gold": [
+      37
+    ],
+    "cited": [
+      37
+    ],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 22.231344699976034,
+    "prefill": 26.22135166978289,
+    "p_tok": 327
+  },
+  {
+    "id": "لا_مادة_سيارة",
+    "expect": "لا مادة ذات صلة",
+    "got": "لا مادة ذات صلة",
+    "ok": true,
+    "gold": [],
+    "cited": [],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 24.19889590004459,
+    "prefill": 27.181992135585222,
+    "p_tok": 450
+  },
+  {
+    "id": "لا_مادة_زيّ",
+    "expect": "لا مادة ذات صلة",
+    "got": "لا مادة ذات صلة",
+    "ok": true,
+    "gold": [],
+    "cited": [],
+    "cited_ok": true,
+    "guard": [],
+    "needs_review": false,
+    "sec": 18.750938400044106,
+    "prefill": 24.35199880473798,
+    "p_tok": 266
+  }
+]

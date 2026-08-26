@@ -1,0 +1,34 @@
+# ── النماذج والثنائيات (كبيرة — تُنزَّل عند النشر، لا تُرفَع) ──
+models/
+llamacpp/
+llamacpp-vulkan/
+*.gguf
+
+# ── قاعدة البيانات والرفوعات (تحوي بيانات مستخدمين وكلمات مرور) ──
+lawmind.db
+lawmind.db-journal
+uploads/
+
+# ── بايثون ──
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# ── الواجهة (Next.js) ──
+web/node_modules/
+web/.next/
+web/out/
+web/.vercel/
+web/next-env.d.ts
+
+# ── بيئة وأسرار ──
+.env
+.env.local
+web/.env.local
+*.log
+
+# ── نظام التشغيل ──
+.DS_Store
+Thumbs.db

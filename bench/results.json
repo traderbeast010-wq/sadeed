@@ -1,0 +1,15 @@
+[
+  {
+    "threads": 6,
+    "think": false,
+    "load_s": 6.6436782000237145,
+    "avg_wall": 16.297692039981484,
+    "avg_prefill": 29.177419389359304,
+    "avg_gen": 9.276530861176715,
+    "avg_gtok": 67.4,
+    "json_rate": 1.0,
+    "verdict_rate": 1.0,
+    "hall": 0,
+    "n": 5
+  }
+]

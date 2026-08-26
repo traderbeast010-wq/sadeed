@@ -1,0 +1,58 @@
+[
+  {
+    "pdf": "corpus/raw/labour-53-2023.pdf",
+    "law_id": "OM-LABOUR-53-2023",
+    "law_name": "قانون العمل",
+    "decree_no": "53/2023",
+    "issued": "2023-07-25",
+    "domains": ["employment"]
+  },
+  {
+    "pdf": "corpus/raw/civil-29-2013.pdf",
+    "law_id": "OM-CIVIL-29-2013",
+    "law_name": "قانون المعاملات المدنية",
+    "decree_no": "29/2013",
+    "issued": "2013-05-06",
+    "domains": ["civil", "employment", "commercial", "lease", "tenders"]
+  },
+  {
+    "pdf": "corpus/raw/commerce-55-1990.pdf",
+    "law_id": "OM-COMMERCE-55-1990",
+    "law_name": "قانون التجارة",
+    "decree_no": "55/90",
+    "issued": "1990-06-01",
+    "domains": ["commercial"]
+  },
+  {
+    "pdf": "corpus/raw/basic-law.pdf",
+    "law_id": "OM-BASIC-LAW",
+    "law_name": "النظام الأساسي للدولة",
+    "decree_no": "6/2021",
+    "issued": "2021-01-11",
+    "domains": ["civil", "employment", "commercial", "lease", "tenders"]
+  },
+  {
+    "pdf": "corpus/raw/penal-7-2018.pdf",
+    "law_id": "OM-PENAL-7-2018",
+    "law_name": "قانون الجزاء",
+    "decree_no": "7/2018",
+    "issued": "2018-01-14",
+    "domains": ["penal"]
+  },
+  {
+    "pdf": "corpus/raw/family-32-1997.pdf",
+    "law_id": "OM-FAMILY-32-1997",
+    "law_name": "قانون الأحوال الشخصية",
+    "decree_no": "32/97",
+    "issued": "1997-06-04",
+    "domains": ["family"]
+  },
+  {
+    "pdf": "corpus/raw/judiciary-35-2022.pdf",
+    "law_id": "OM-JUDICIARY-35-2022",
+    "law_name": "تنظيم إدارة شؤون القضاء",
+    "decree_no": "35/2022",
+    "issued": "2022-05-30",
+    "domains": ["judiciary"]
+  }
+]

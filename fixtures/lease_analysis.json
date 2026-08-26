@@ -1,0 +1,413 @@
+{
+  "filename": "test_lease.txt",
+  "laws": [
+    {
+      "law_id": "OM-BASIC-LAW",
+      "law_name": "النظام الأساسي للدولة",
+      "decree_no": "6/2021",
+      "issued": "2021-01-11",
+      "domains": [
+        "civil",
+        "employment",
+        "commercial",
+        "lease",
+        "tenders"
+      ],
+      "article_count": 98,
+      "source_file": "basic-law.pdf"
+    },
+    {
+      "law_id": "OM-CIVIL-29-2013",
+      "law_name": "قانون المعاملات المدنية",
+      "decree_no": "29/2013",
+      "issued": "2013-05-06",
+      "domains": [
+        "civil",
+        "employment",
+        "commercial",
+        "lease",
+        "tenders"
+      ],
+      "article_count": 1086,
+      "source_file": "civil-29-2013.pdf"
+    },
+    {
+      "law_id": "OM-COMMERCE-55-1990",
+      "law_name": "قانون التجارة",
+      "decree_no": "55/90",
+      "issued": "1990-06-01",
+      "domains": [
+        "commercial"
+      ],
+      "article_count": 578,
+      "source_file": "commerce-55-1990.pdf"
+    },
+    {
+      "law_id": "OM-FAMILY-32-1997",
+      "law_name": "قانون الأحوال الشخصية",
+      "decree_no": "32/97",
+      "issued": "1997-06-04",
+      "domains": [
+        "family"
+      ],
+      "article_count": 282,
+      "source_file": "family-32-1997.pdf"
+    },
+    {
+      "law_id": "OM-JUDICIARY-35-2022",
+      "law_name": "تنظيم إدارة شؤون القضاء",
+      "decree_no": "35/2022",
+      "issued": "2022-05-30",
+      "domains": [
+        "judiciary"
+      ],
+      "article_count": 13,
+      "source_file": "judiciary-35-2022.pdf"
+    },
+    {
+      "law_id": "OM-LABOUR-53-2023",
+      "law_name": "قانون العمل",
+      "decree_no": "53/2023",
+      "issued": "2023-07-25",
+      "domains": [
+        "employment"
+      ],
+      "article_count": 150,
+      "source_file": "labour-53-2023.pdf"
+    },
+    {
+      "law_id": "OM-PENAL-7-2018",
+      "law_name": "قانون الجزاء",
+      "decree_no": "7/2018",
+      "issued": "2018-01-14",
+      "domains": [
+        "penal"
+      ],
+      "article_count": 389,
+      "source_file": "penal-7-2018.pdf"
+    }
+  ],
+  "article_count": 2596,
+  "clause_count": 5,
+  "summary": {
+    "مخالف": 1,
+    "ناقص": 0,
+    "سليم": 3,
+    "لا مادة ذات صلة": 1
+  },
+  "score": {
+    "overall": 71,
+    "grade": "مقبول",
+    "note": "العقد صالح مع ملاحظات تستوجب التعديل.",
+    "compliance": {
+      "score": 78,
+      "weight": 0.6,
+      "counts": {
+        "مخالف": 1,
+        "ناقص": 0,
+        "سليم": 3,
+        "لا مادة ذات صلة": 1
+      },
+      "penalty": 22
+    },
+    "completeness": {
+      "score": 61,
+      "weight": 0.4,
+      "required_present": "5.5/7.5",
+      "recommended_present": "1.0/4.5",
+      "missing": [
+        {
+          "key": "job",
+          "label": "نوع العمل وشروطه ومدة العقد",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "respect",
+          "label": "احترام الأديان وقوانين السلطنة وعاداتها",
+          "required": true,
+          "basis": "المادة (36)"
+        },
+        {
+          "key": "hours",
+          "label": "ساعات العمل",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "leave",
+          "label": "الإجازات",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "probation",
+          "label": "فترة الاختبار",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "confidential",
+          "label": "السرية",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        },
+        {
+          "key": "disputes",
+          "label": "تسوية المنازعات",
+          "required": false,
+          "basis": "ممارسة موصى بها"
+        }
+      ],
+      "present": [
+        {
+          "key": "employer",
+          "label": "اسم صاحب العمل والمنشأة وعنوان مكان العمل",
+          "required": true
+        },
+        {
+          "key": "worker",
+          "label": "اسم العامل وبياناته الشخصية",
+          "required": true
+        },
+        {
+          "key": "wage",
+          "label": "الأجر الأساسي والعلاوات وموعد أدائه",
+          "required": true
+        },
+        {
+          "key": "notice",
+          "label": "مدة الإخطار (لا تقل عن شهر من صاحب العمل)",
+          "required": true
+        },
+        {
+          "key": "termination",
+          "label": "إنهاء العقد",
+          "required": false
+        }
+      ]
+    },
+    "basis": "الامتثال من أحكام البنود · الاكتمال من المادة (36) من قانون العمل 53/2023",
+    "coverage": {
+      "evaluated": 4,
+      "total": 5
+    }
+  },
+  "clauses": [
+    {
+      "clause_id": "c1",
+      "heading": "البند الأول",
+      "text": "يؤجّر الطرف الأول للطرف الثاني المحل التجاري الكائن في روي، محافظة مسقط، لاستعماله في نشاط تجاري مشروع، ومدة الإيجار خمس سنوات تبدأ من تاريخ العقد.",
+      "verdict": "سليم",
+      "reasoning": "البند متوافق مع المادة 527 التي تنص على أن مدة الإيجار تبدأ من التاريخ المتفق عليه في العقد.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [
+        {
+          "law_id": "OM-CIVIL-29-2013",
+          "law_name": "قانون المعاملات المدنية",
+          "decree_no": "29/2013",
+          "article_no": 527,
+          "article_text": "تبدأ مدة الإيجار من التاريخ المتفق عليه في العقد فإن لم يحدد فمن تاريخ العقد .",
+          "book": "الباب الثاني",
+          "chapter": "الفصل الأول"
+        }
+      ],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 527
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 529
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 20.6
+    },
+    {
+      "clause_id": "c2",
+      "heading": "البند الثاني",
+      "text": "حُددت الأجرة السنوية بمبلغ اثني عشر ألف ريال عماني، تُدفع مقدماً في بداية كل سنة، ولا يجوز للمستأجر التأخر في السداد لأكثر من شهر.",
+      "verdict": "سليم",
+      "reasoning": "البند متوافق مع المادة 521 التي تشترط أن تكون الأجرة معلومة بتعيين نوعها ومقدارها، حيث حدد العقد مبلغ الأجرة السنوي ونوعها وموعدها.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [
+        {
+          "law_id": "OM-CIVIL-29-2013",
+          "law_name": "قانون المعاملات المدنية",
+          "decree_no": "29/2013",
+          "article_no": 521,
+          "article_text": "يشترط أن تكون الأجرة معلومة وذلك بتعيين نوعها ومقدارها إن كانت من النقود\n وبيان نوعها ووصفها وتحديد مقدارها إن كانت من غير النقود .",
+          "book": "الباب الثاني",
+          "chapter": "الفصل الأول"
+        }
+      ],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 525
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 521
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 17.9
+    },
+    {
+      "clause_id": "c3",
+      "heading": "البند الثالث",
+      "text": "يحق للمؤجر فسخ العقد وإخلاء العين فوراً ودون إنذار أو لجوء إلى القضاء إذا تأخر المستأجر في سداد الأجرة يوماً واحداً.",
+      "verdict": "مخالف",
+      "reasoning": "ينص البند على حق فسخ المؤجر فوراً ودون إنذار أو لجوء للقضاء عند تأخر سداد الأجرة، بينما تنص المادة 535 على حق المستأجر فقط في فسخ العقد أو الحصول على إذن من المحكمة في حال عدم إصلاح الخلل، ولا تذكر المادة أي حق للمؤجر في فسخ العقد بسبب تأخر سداد الأجرة.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [
+        {
+          "law_id": "OM-CIVIL-29-2013",
+          "law_name": "قانون المعاملات المدنية",
+          "decree_no": "29/2013",
+          "article_no": 535,
+          "article_text": "1- يلتزم المؤجر بأن يقوم بإصلاح ما يحدث من خلل في الشيء المؤجر يؤثر في استيفاء\n\nالمنفعة المقصودة فإن لم يفعل جاز للمستأجر فسخ العقد أو الحصول على إذن من\n\nالمحكمة يخوله الإصلاح والرجوع على المؤجر بما أنفق بالقدر المتعارف عليه .\n2- إذا كان الخلل الذي يلزم المؤجر إصلاحه عرفا من الأمور البسيطة أو المستعجلة\n\nالتي لا تحتمل التأخير وطلب إليه المستأجر إصلاحه فتأخر أو تعذر الاتصال به جاز\n\nللمستأجر إصلاحه واقتطاع نفقته بالقدر المتعارف عليه من الأجرة .",
+          "book": "الباب الثاني",
+          "chapter": "الفصل الأول"
+        }
+      ],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 535
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 548
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 24.8
+    },
+    {
+      "clause_id": "c4",
+      "heading": "البند الرابع",
+      "text": "لا يحق للمستأجر إجراء أي تعديل أو تحسين في العين المؤجرة، ويتحمل وحده كامل تكاليف الصيانة الجوهرية والإنشائية مهما بلغت.",
+      "verdict": "سليم",
+      "reasoning": "البند متوافق مع المواد المعطاة التي تنظم علاقة المستأجر بالمؤجر فيما يخص الصيانة والأجرة دون تعارض.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [
+        {
+          "law_id": "OM-CIVIL-29-2013",
+          "law_name": "قانون المعاملات المدنية",
+          "decree_no": "29/2013",
+          "article_no": 526,
+          "article_text": "لا تستحق الأجرة عن مدة انقضت قبل تسليم العين المؤجرة ما لم يكن المستأجر هو المتسبب في ذلك .",
+          "book": "الباب الثاني",
+          "chapter": "الفصل الأول"
+        },
+        {
+          "law_id": "OM-CIVIL-29-2013",
+          "law_name": "قانون المعاملات المدنية",
+          "decree_no": "29/2013",
+          "article_no": 548,
+          "article_text": "1- ال يجوز للمستأجر أن يمنع المؤجر من القيام بالأعمال الضرورية لصيانة الشيء\n المؤجر .\n2- إذا ترتب على هذه الأعمال ما يخل بانتفاع المستأجر كان له الحق في فسخ العقد\n ما لم يستمر على استيفاء المنفعة وهو ساكت حتى انتهاء أعمال الصيانة .\n3- إذا أصلح المؤجر الشيء المؤجر قبل الفسخ سقط عن المستأجر من الأجرة مقدار\n ما فات من منفعة ولا خيار له في الفسخ .",
+          "book": "الباب الثاني",
+          "chapter": "الفصل الأول"
+        }
+      ],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 526
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 548
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 17.4
+    },
+    {
+      "clause_id": "c5",
+      "heading": "البند الخامس",
+      "text": "يتنازل المستأجر مقدماً عن أي حق في التعويض عن الإخلاء أو عن أي منفعة تجارية اكتسبها من المحل طوال مدة الإيجار. حُرّر من نسختين، لكل طرف نسخة.",
+      "verdict": "لا مادة ذات صلة",
+      "reasoning": "لا توجد مواد معطاة تتناول موضوع تنازل المستأجر عن حقوق التعويض أو المنافع التجارية في عقد الإيجار.",
+      "confidence": 0.95,
+      "needs_review": false,
+      "citations": [],
+      "considered": [
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 552
+        },
+        {
+          "law_name": "قانون المعاملات المدنية",
+          "article_no": 531
+        }
+      ],
+      "suggested_text": null,
+      "seconds": 14.5
+    }
+  ],
+  "guard_log": [],
+  "top_k": 2,
+  "routing": [
+    {
+      "law_id": "OM-CIVIL-29-2013",
+      "law_name": "قانون المعاملات المدنية",
+      "similarity": 0.8439,
+      "weight": 1.0,
+      "article_count": 1086
+    },
+    {
+      "law_id": "OM-BASIC-LAW",
+      "law_name": "النظام الأساسي للدولة",
+      "similarity": 0.7071,
+      "weight": 0.5,
+      "article_count": 98
+    },
+    {
+      "law_id": "OM-COMMERCE-55-1990",
+      "law_name": "قانون التجارة",
+      "similarity": 0.6002,
+      "weight": 0.5,
+      "article_count": 578
+    },
+    {
+      "law_id": "OM-LABOUR-53-2023",
+      "law_name": "قانون العمل",
+      "similarity": 0.5803,
+      "weight": 0.15,
+      "article_count": 150
+    },
+    {
+      "law_id": "OM-PENAL-7-2018",
+      "law_name": "قانون الجزاء",
+      "similarity": 0.5373,
+      "weight": 0.15,
+      "article_count": 389
+    },
+    {
+      "law_id": "OM-FAMILY-32-1997",
+      "law_name": "قانون الأحوال الشخصية",
+      "similarity": 0.4996,
+      "weight": 0.15,
+      "article_count": 282
+    },
+    {
+      "law_id": "OM-JUDICIARY-35-2022",
+      "law_name": "تنظيم إدارة شؤون القضاء",
+      "similarity": 0.3597,
+      "weight": 0.15,
+      "article_count": 13
+    }
+  ],
+  "elapsed_seconds": 110.7,
+  "approved_by": null,
+  "approved_at": null
+}

@@ -1,0 +1,17 @@
+{
+  "law_ids": [
+    "OM-BASIC-LAW",
+    "OM-CIVIL-29-2013",
+    "OM-COMMERCE-55-1990",
+    "OM-FAMILY-32-1997",
+    "OM-JUDICIARY-35-2022",
+    "OM-LABOUR-53-2023",
+    "OM-PENAL-7-2018"
+  ],
+  "law_count": 7,
+  "article_count": 2596,
+  "dim": 1024,
+  "fingerprint": "db68f1529d084da6",
+  "embed_model": "bge-m3-q8_0.gguf",
+  "pooling": "cls"
+}
