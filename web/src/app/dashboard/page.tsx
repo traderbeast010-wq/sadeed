@@ -4,31 +4,54 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  demoList,
+  getOffice,
+  getRevenue,
   health,
   listAnalyses,
+  listDeadlines,
+  reviewQueue,
   startAnalysis,
   uploadContract,
 } from "@/lib/api";
-import type { AnalysisRow } from "@/lib/types";
+import type {
+  AnalysisRow,
+  Deadline,
+  Office,
+  RevenueSummary,
+} from "@/lib/types";
+import { useAuth } from "@/lib/auth";
+
+function daysUntil(due: string): number {
+  const d = new Date(due + "T00:00:00");
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  return Math.round((d.getTime() - now.getTime()) / 86400000);
+}
 
 export default function Dashboard() {
   const router = useRouter();
+  const { user } = useAuth();
   const [rows, setRows] = useState<AnalysisRow[] | null>(null);
-  const [corpus, setCorpus] = useState<{ lawCount: number; articleCount: number } | null>(null);
-  const [offline, setOffline] = useState(false);
+  const [deadlines, setDeadlines] = useState<Deadline[]>([]);
+  const [office, setOffice] = useState<Office | null>(null);
+  const [revenue, setRevenue] = useState<RevenueSummary | null>(null);
+  const [reviewCount, setReviewCount] = useState(0);
+  const [corpus, setCorpus] = useState<{ laws: number; arts: number } | null>(
+    null,
+  );
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [drag, setDrag] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    health()
-      .then((h) =>
-        setCorpus({ lawCount: h.law_count, articleCount: h.article_count }),
-      )
-      .catch(() => setOffline(true));
     listAnalyses().then(setRows).catch(() => setRows([]));
+    listDeadlines().then(setDeadlines).catch(() => setDeadlines([]));
+    getOffice().then(setOffice).catch(() => setOffice(null));
+    getRevenue().then(setRevenue).catch(() => setRevenue(null));
+    reviewQueue().then((q) => setReviewCount(q.length)).catch(() => {});
+    health()
+      .then((h) => setCorpus({ laws: h.law_count, arts: h.article_count }))
+      .catch(() => {});
   }, []);
 
   const handleFile = useCallback(
@@ -48,284 +71,312 @@ export default function Dashboard() {
     [router],
   );
 
-  return (
-    <div className="mx-auto max-w-[1080px] px-8 pb-16">
-      {/* لوحة الاستقبال — الأخضر العُمانيّ توقيعُ المنتج */}
-      <div className="relative mt-8 overflow-hidden rounded-[20px] text-white shadow-[0_20px_60px_-20px_rgba(0,0,0,0.55)]">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(135deg, #0f172a 0%, #0f172a 52%, #3a2408 100%)",
-          }}
-        />
-        {/* توهّج ذهبيّ خفيف + بريق علويّ */}
-        <div
-          className="absolute inset-0 opacity-[0.5] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(120% 90% at 12% 0%, rgba(232,163,61,0.28) 0%, transparent 45%), radial-gradient(90% 80% at 100% 120%, rgba(255,255,255,0.06) 0%, transparent 50%)",
-          }}
-        />
-        <div className="relative px-9 sm:px-11 py-11">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
-            <div className="max-w-xl">
-              <div className="flex items-center gap-2.5 mb-5">
-                <span className="h-px w-8 bg-[var(--color-accent)]" />
-                <span className="text-[11px] tracking-[0.22em] text-[rgba(255,255,255,0.62)] font-medium">
-                  سديد
-                </span>
-              </div>
-              <h1 className="display text-[34px] sm:text-[40px] leading-[1.08]">
-                تدقيق العقود مقابل
-                <br />
-                القانون العُمانيّ
-              </h1>
-              <p className="mt-4 text-[13.5px] leading-relaxed text-[rgba(255,255,255,0.72)] max-w-md">
-                يُفكَّك العقد إلى بنود، ويُحكَم على كلٍّ منها باستشهادٍ من نصّ
-                المادة وقانونها — لا رأي بلا سند.
-              </p>
-            </div>
+  const scored = (rows ?? []).filter((r) => r.score != null);
+  const avgCompliance = scored.length
+    ? Math.round(scored.reduce((a, r) => a + (r.score ?? 0), 0) / scored.length)
+    : 0;
+  const fees = revenue?.fees_total ?? 0;
+  const pendingDeadlines = deadlines.filter((d) => !d.done);
 
-            {/* إحصاءات المتن — مفصولة بخيط ذهبيّ */}
-            <div className="flex items-stretch gap-6 shrink-0 sm:pb-1">
-              <div className="text-end">
-                <p className="tnum text-[32px] font-bold leading-none">
-                  {corpus?.articleCount ?? "٢٥٩٦"}
-                </p>
-                <p className="text-[10.5px] text-[rgba(255,255,255,0.55)] mt-1.5">
-                  مادة مفهرَسة
-                </p>
-              </div>
-              <div className="w-px bg-[rgba(232,163,61,0.55)]" />
-              <div className="text-end">
-                <p className="tnum text-[32px] font-bold leading-none">
-                  {corpus?.lawCount ?? "٧"}
-                </p>
-                <p className="text-[10.5px] text-[rgba(255,255,255,0.55)] mt-1.5">
-                  قوانين نافذة
-                </p>
-              </div>
+  return (
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <input
+        ref={fileRef}
+        type="file"
+        accept=".pdf,.docx,.doc,.txt"
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) handleFile(f);
+        }}
+      />
+
+      {/* بانر الترحيب */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/40 border border-slate-800 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-xl">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-semibold text-amber-400 mb-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>مساحة العمل القانونية — معالجة محلية ١٠٠٪</span>
             </div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white leading-normal">
+              مرحباً بك، {user?.name ?? "المحامي"}
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300 mt-1">
+              {office?.office_name || "مكتبك"}
+              {office?.license_no && (
+                <>
+                  {" "}
+                  · <span className="tnum">قيد {office.license_no}</span>
+                </>
+              )}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={() => fileRef.current?.click()}
+              disabled={!!busy}
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-amber-950/60 border border-amber-500/40 transition-all active:scale-95 disabled:opacity-50"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <span>{busy ? "جارٍ التدقيق…" : "تدقيق عقد جديد"}</span>
+            </button>
+
+            <Link
+              href="/assistant"
+              className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-medium border border-slate-700/80 transition-all active:scale-95"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-amber-400">
+                <path d="M12 3l1.9 4.6L18.5 9l-3.7 3 1.1 4.8L12 14.4 8.1 16.8 9.2 12 5.5 9l4.6-1.4L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+              </svg>
+              <span>استشارة قانونية ذكية</span>
+            </Link>
           </div>
         </div>
       </div>
 
-      {offline && (
-        <div className="mt-5 px-4 py-3 rounded-[var(--radius)] border-s-2 border-[var(--color-deficient)] bg-[var(--color-deficient-bg)]">
-          <p className="text-[12.5px] text-[var(--color-deficient)] font-medium">
-            الخادم متوقّف — التحاليل المحفوظة أدناه متاحة، أو شغّل{" "}
-            <code className="tnum">.\run.ps1</code>
+      {busy && (
+        <p className="text-xs text-amber-400 -mt-4">{busy} — اترك الصفحة مفتوحة.</p>
+      )}
+      {error && <p className="text-xs text-rose-400 -mt-4">{error}</p>}
+
+      {/* ٤ بطاقات إحصاء */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {/* العقود المدققة */}
+        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition-colors flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-slate-400">العقود المدقّقة</span>
+              <div className="w-8 h-8 rounded-lg bg-blue-950/70 border border-blue-800/40 flex items-center justify-center text-blue-400">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13H7z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/><path d="M14 3v5h5" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/></svg>
+              </div>
+            </div>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="tnum text-3xl font-bold text-white">{rows?.length ?? 0}</span>
+              <span className="text-xs text-slate-400">عقد مفحوص</span>
+            </div>
+          </div>
+          <p className="mt-3 pt-2 border-t border-slate-800/60 text-[11px] text-emerald-400 flex items-center gap-1">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span>مطابقة لـ {corpus?.laws ?? 7} قوانين عُمانية</span>
           </p>
         </div>
-      )}
 
-      {/* بطاقة الرفع — مرفوعة فوق اللوحة بظلّ حقيقيّ */}
-      <div className="relative -mt-6 mx-1 sm:mx-6 grid lg:grid-cols-[1.7fr_1fr]">
-        <div
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDrag(true);
-          }}
-          onDragLeave={() => setDrag(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDrag(false);
-            const f = e.dataTransfer.files?.[0];
-            if (f) handleFile(f);
-          }}
-          className={`relative rounded-[16px] bg-[var(--color-surface)] shadow-[0_16px_40px_-16px_rgba(26,26,23,0.22)] transition-all ${
-            drag
-              ? "ring-2 ring-[var(--color-brand)] ring-offset-2 ring-offset-[var(--color-canvas)]"
-              : "ring-1 ring-[var(--color-line)]"
-          }`}
-        >
-          <div className="px-8 py-9">
-            {busy ? (
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 shrink-0 rounded-full border-2 border-[var(--color-brand)] border-t-transparent animate-spin" />
-                <div>
-                  <div className="text-[14px] font-semibold text-[var(--color-ink)]">
-                    {busy}
-                  </div>
-                  <p className="mt-0.5 text-[11.5px] text-[var(--color-ink-3)]">
-                    اترك الصفحة مفتوحة حتى ينتهي.
-                  </p>
-                </div>
+        {/* متوسط الامتثال */}
+        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition-colors flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-slate-400">متوسّط الامتثال</span>
+              <div className="w-8 h-8 rounded-lg bg-emerald-950/70 border border-emerald-800/40 flex items-center justify-center text-emerald-400">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3.5v5.2c0 4.3-3 7.4-7 8.3-4-.9-7-4-7-8.3V6.5L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M9 12l2.1 2.1L15 10" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
+            </div>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="tnum text-3xl font-bold text-white">{avgCompliance}٪</span>
+              <span className="text-xs text-slate-400">مؤشّر الجودة</span>
+            </div>
+          </div>
+          <div className="mt-3 pt-2 border-t border-slate-800/60">
+            <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-gradient-to-l from-emerald-400 to-amber-500 h-full rounded-full" style={{ width: `${avgCompliance}%` }} />
+            </div>
+          </div>
+        </div>
+
+        {/* تقدير الأتعاب */}
+        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition-colors flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-semibold text-slate-400">تقدير الأتعاب</span>
+                <span className="text-[9px] bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded border border-amber-900/30">داخليّ فقط</span>
+              </div>
+              <div className="w-8 h-8 rounded-lg bg-amber-950/70 border border-amber-800/40 flex items-center justify-center text-amber-400">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/><path d="M17 7h4v4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
+            </div>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="tnum text-3xl font-bold text-white">{fees.toLocaleString("ar", { maximumFractionDigits: 3 })}</span>
+              <span className="text-xs text-amber-400 font-semibold">ر.ع</span>
+            </div>
+          </div>
+          <p className="mt-3 pt-2 border-t border-slate-800/60 text-[11px] text-slate-400">
+            محسوبة تلقائياً حسب تسعيرة المكتب
+          </p>
+        </div>
+
+        {/* تحتاج مراجعة */}
+        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition-colors flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-slate-400">تحتاج مراجعة عاجلة</span>
+              <div className="w-8 h-8 rounded-lg bg-rose-950/70 border border-rose-800/40 flex items-center justify-center text-rose-400">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l9.5 16.5H2.5L12 3z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
+              </div>
+            </div>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="tnum text-3xl font-bold text-rose-400">{reviewCount}</span>
+              <span className="text-xs text-slate-400">بند يحتاج قراراً</span>
+            </div>
+          </div>
+          <Link href="/review" className="mt-3 pt-2 border-t border-slate-800/60 text-[11px] text-rose-300 hover:text-rose-200 flex items-center justify-between font-medium">
+            <span>استعراض البنود</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </Link>
+        </div>
+      </div>
+
+      {/* الشبكة الرئيسية */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* العقود الأخيرة (٨ أعمدة) */}
+        <div className="lg:col-span-8 space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-white">العقود الأخيرة المدقّقة</h2>
+              <p className="text-xs text-slate-400">انقر أي عقد لمعاينة تقرير التدقيق ومواده</p>
+            </div>
+          </div>
+
+          {rows === null ? (
+            <p className="text-xs text-slate-500 py-6">جارٍ التحميل…</p>
+          ) : rows.length === 0 ? (
+            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-8 text-center">
+              <p className="text-sm text-slate-300">لا عقود مدقّقة بعد.</p>
+              <button onClick={() => fileRef.current?.click()} className="mt-3 text-xs text-amber-400 hover:text-amber-300 font-semibold">
+                ابدأ بتدقيق عقد ←
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {rows.map((c) => {
+                const scoreColor =
+                  c.score == null
+                    ? "text-slate-400"
+                    : c.score >= 80
+                      ? "text-emerald-400"
+                      : c.score >= 60
+                        ? "text-amber-400"
+                        : "text-rose-400";
+                return (
+                  <Link
+                    key={c.id}
+                    href={`/analysis/${c.id}`}
+                    className="block bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 rounded-2xl p-5 transition-all group hover:shadow-md"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">
+                            <span className="tnum">{c.clause_count}</span> بند
+                          </span>
+                          <span className="text-xs text-slate-400">
+                            {c.client_name ?? "بلا عميل"}
+                          </span>
+                        </div>
+                        <h3 className="text-sm sm:text-base font-bold text-slate-100 group-hover:text-amber-300 transition-colors mt-1.5 truncate">
+                          {c.filename}
+                        </h3>
+                      </div>
+
+                      <div className="flex items-center gap-4 shrink-0">
+                        <div className="text-center">
+                          <div className="text-xs font-semibold text-slate-400">الدرجة</div>
+                          <span className={`tnum text-sm font-bold ${scoreColor}`}>
+                            {c.score ?? "—"}
+                          </span>
+                        </div>
+                        <span
+                          className="hidden sm:block text-[11px] px-2 py-1 rounded font-semibold border"
+                          style={{
+                            background: c.approved_by ? "rgba(6,37,31,0.7)" : "rgba(30,41,59,0.7)",
+                            borderColor: c.approved_by ? "rgba(18,86,72,0.5)" : "rgba(51,65,85,0.6)",
+                            color: c.approved_by ? "#34d399" : "#94a3b8",
+                          }}
+                        >
+                          {c.approved_by ? "معتمَد" : "بانتظار الاعتماد"}
+                        </span>
+                        <div className="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-amber-600 flex items-center justify-center text-slate-400 group-hover:text-white transition-colors">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 pt-3 border-t border-slate-800 flex items-center justify-end text-xs text-slate-400">
+                      <span className="tnum text-[11px]">
+                        {new Date(c.created_at).toLocaleDateString("ar", { dateStyle: "medium" })}
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* المهل + المرجع (٤ أعمدة) */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-amber-400"><rect x="3.5" y="5" width="17" height="16" rx="2" stroke="currentColor" strokeWidth="1.6"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>
+                <h3 className="text-sm font-bold text-white">المهل القانونية القادمة</h3>
+              </div>
+              <Link href="/deadlines" className="text-[11px] text-slate-400 hover:text-amber-300 transition-colors">
+                عرض الكل
+              </Link>
+            </div>
+
+            {pendingDeadlines.length === 0 ? (
+              <p className="text-[11px] text-slate-500 py-2">لا مهل قادمة.</p>
             ) : (
-              <div className="flex items-center gap-6">
-                <button
-                  onClick={() => fileRef.current?.click()}
-                  className="group shrink-0 inline-flex items-center gap-2.5 px-5 py-3 rounded-[10px] bg-[var(--color-brand)] text-white text-[13.5px] font-semibold shadow-[0_6px_18px_-6px_rgba(245,158,11,0.6)] hover:bg-[var(--color-brand-2)] transition-colors"
-                >
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 16V5m0 0L8 9m4-4l4 4M5 19h14"
-                      stroke="currentColor"
-                      strokeWidth="1.9"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  اختيار ملف العقد
-                </button>
-                <div>
-                  <p className="text-[14.5px] font-medium text-[var(--color-ink)]">
-                    أو اسحب العقد وأفلته هنا
-                  </p>
-                  <p className="mt-1 text-[11.5px] text-[var(--color-ink-3)]">
-                    PDF أو Word، حتى ١٠ ميجابايت · يُعالَج على هذا الجهاز
-                  </p>
-                </div>
+              <div className="space-y-3">
+                {pendingDeadlines.slice(0, 3).map((dl) => {
+                  const days = daysUntil(dl.due_date);
+                  return (
+                    <div key={dl.id} className="bg-slate-950/90 p-3.5 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <span className="font-semibold text-slate-200 text-xs truncate block leading-snug">{dl.title}</span>
+                          <p className="text-[11px] text-slate-400 mt-1 truncate">
+                            {dl.client_name ? `${dl.client_name} · ` : ""}
+                            <span className="tnum">{new Date(dl.due_date + "T00:00:00").toLocaleDateString("ar", { dateStyle: "medium" })}</span>
+                          </p>
+                        </div>
+                        <div className={`shrink-0 flex items-center justify-center gap-1 min-w-[62px] px-2.5 py-1.5 rounded-xl text-center border ${
+                          days <= 7 ? "bg-rose-500/20 text-rose-300 border-rose-500/30" :
+                          days <= 15 ? "bg-amber-500/20 text-amber-300 border-amber-500/30" :
+                          "bg-slate-800 text-slate-300 border-slate-700"
+                        }`}>
+                          <span className="tnum text-xs font-bold leading-none">{days < 0 ? `-${Math.abs(days)}` : days}</span>
+                          <span className="text-[10px] font-semibold leading-none">يوم</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
-            <input
-              ref={fileRef}
-              type="file"
-              accept=".pdf,.docx,.doc,.txt"
-              className="hidden"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) handleFile(f);
-              }}
-            />
+          </div>
+
+          {/* مرجع القوانين */}
+          <div className="bg-gradient-to-br from-slate-900 to-amber-950/30 border border-amber-900/30 rounded-2xl p-5">
+            <div className="flex items-center gap-2 text-amber-400 text-xs font-semibold mb-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v15H6.5A2.5 2.5 0 004 20.5V5.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>
+              <span>القوانين العُمانية المفهرَسة</span>
+            </div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              فُهرست <strong className="text-slate-100">{corpus?.laws ?? 7} قوانين عُمانية نافذة</strong> — منها قانون العمل 53/2023 والمعاملات المدنية 29/2013 — بمجموع{" "}
+              <span className="tnum">{corpus?.arts ?? 2596}</span> مادة صريحة.
+            </p>
+            <Link href="/law" className="mt-3.5 w-full py-2.5 bg-slate-800/90 hover:bg-slate-800 text-amber-300 text-xs font-semibold rounded-xl border border-amber-500/30 transition-colors flex items-center justify-center gap-1.5">
+              <span>البحث في نصوص المواد</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </Link>
           </div>
         </div>
-        <div className="hidden lg:block" />
-      </div>
-
-      {error && (
-        <p className="mt-4 mx-6 text-[12.5px] text-[var(--color-violation)]">
-          {error}
-        </p>
-      )}
-
-      {/* نماذج جاهزة — صفّ بطاقات أنيق */}
-      <div className="mt-11">
-        <div className="flex items-baseline gap-2 mb-3.5">
-          <h2 className="text-[13px] font-bold text-[var(--color-ink)]">
-            نماذج جاهزة للاستعراض
-          </h2>
-          <span className="h-px flex-1 bg-[var(--color-line)]" />
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-          {demoList().map((d, i) => (
-            <a
-              key={d.id}
-              href={`/analysis/${d.id}`}
-              className="group rise flex items-center justify-between gap-3 px-4 py-3.5 rounded-[12px] bg-[var(--color-surface)] ring-1 ring-[var(--color-line)] hover:ring-[var(--color-brand-ring)] hover:shadow-[0_10px_28px_-14px_rgba(26,26,23,0.2)] transition-all"
-              style={{ animationDelay: `${i * 45}ms` }}
-            >
-              <span className="text-[12.5px] text-[var(--color-ink-2)] group-hover:text-[var(--color-ink)] transition-colors leading-snug">
-                {d.label}
-              </span>
-              <span className="shrink-0 w-6 h-6 grid place-items-center rounded-full bg-[var(--color-brand-tint)] text-[var(--color-brand)] group-hover:bg-[var(--color-brand)] group-hover:text-white transition-colors">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M15 6l-6 6 6 6"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      {/* السجلّ */}
-      <div className="mt-11">
-        <div className="flex items-baseline gap-2 mb-3.5">
-          <h2 className="text-[13px] font-bold text-[var(--color-ink)]">
-            التحليلات السابقة
-          </h2>
-          {rows && rows.length > 0 && (
-            <span className="tnum text-[11px] text-[var(--color-ink-3)]">
-              ({rows.length})
-            </span>
-          )}
-          <span className="h-px flex-1 bg-[var(--color-line)]" />
-        </div>
-
-        {rows === null ? (
-          <p className="text-[12.5px] text-[var(--color-ink-3)] py-6">
-            جارٍ التحميل…
-          </p>
-        ) : rows.length === 0 ? (
-          <p className="text-[12.5px] text-[var(--color-ink-3)] py-4">
-            لا توجد تحليلات بعد.
-          </p>
-        ) : (
-          <div className="overflow-hidden">
-            <table className="w-full text-[12.5px]">
-              <thead>
-                <tr className="text-[10px] tracking-wide text-[var(--color-ink-4)] border-b border-[var(--color-line)]">
-                  <th className="text-start font-medium pb-2.5">الملف</th>
-                  <th className="text-start font-medium pb-2.5 w-32">العميل</th>
-                  <th className="text-start font-medium pb-2.5 w-16">البنود</th>
-                  <th className="text-start font-medium pb-2.5 w-20">الدرجة</th>
-                  <th className="text-start font-medium pb-2.5 w-32">الحالة</th>
-                  <th className="text-start font-medium pb-2.5 w-32">التاريخ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((r) => (
-                  <tr
-                    key={r.id}
-                    className="border-b border-[var(--color-line-soft)] hover:bg-[var(--color-surface-2)] transition-colors"
-                  >
-                    <td className="py-3">
-                      <Link
-                        href={`/analysis/${r.id}`}
-                        className="font-medium text-[var(--color-ink)] hover:text-[var(--color-brand)] transition-colors"
-                      >
-                        {r.filename}
-                      </Link>
-                    </td>
-                    <td className="py-3 text-[12px] text-[var(--color-ink-2)]">
-                      {r.client_id ? (
-                        <Link
-                          href={`/clients/${r.client_id}`}
-                          className="hover:text-[var(--color-brand)] transition-colors"
-                        >
-                          {r.client_name}
-                        </Link>
-                      ) : (
-                        <span className="text-[var(--color-ink-4)]">—</span>
-                      )}
-                    </td>
-                    <td className="py-3 tnum text-[var(--color-ink-2)]">
-                      {r.clause_count}
-                    </td>
-                    <td className="py-3 tnum font-bold text-[var(--color-ink)]">
-                      {r.score ?? "—"}
-                    </td>
-                    <td className="py-3">
-                      {r.approved_by ? (
-                        <span className="text-[11px] text-[var(--color-compliant)] font-medium">
-                          ● معتمَد
-                        </span>
-                      ) : (
-                        <span className="text-[11px] text-[var(--color-ink-3)]">
-                          بانتظار الاعتماد
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3 tnum text-[11px] text-[var(--color-ink-3)]">
-                      {new Date(r.created_at).toLocaleString("ar", {
-                        dateStyle: "short",
-                        timeStyle: "short",
-                      })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
       </div>
     </div>
   );
