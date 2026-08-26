@@ -1,50 +1,97 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────
-# سديد (Sadeed) — إعداد خادم بايثون على VPS بنظام Ubuntu 22.04/24.04 (x86_64)
-#
-# يُشغَّل مرّة واحدة من داخل مجلد المشروع بعد استنساخه:
-#   git clone <repo> Lawmind && cd Lawmind && bash deploy/vps-setup.sh
-#
-# ما يفعله: يثبّت تبعيات بايثون، ويُنزّل ثنائيّ llama.cpp للينكس.
-# النموذجان (models/) لا يُنزَّلان هنا — انسخهما من جهازك (انظر DEPLOY.md).
+# سديد (Sadeed) — إعداد كامل على VPS بنظام Ubuntu (x86_64)، يُشغَّل مرّة واحدة.
+# يثبّت التبعيات، ويُنزّل llama.cpp و cloudflared، ويُنشئ خدمتي systemd.
+# لا يُنزّل النموذجين (models/) — تُنسخ من جهازك بـscp (تُطبع التعليمات آخِراً).
+# يعمل سواء كمستخدم root (Hostinger) أو بـsudo.
 # ─────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 cd "$(dirname "$0")/.."
 ROOT="$(pwd)"
-echo "== مجلد المشروع: $ROOT =="
+RUN_USER="$(id -un)"
+SUDO=""; [ "$(id -u)" -ne 0 ] && SUDO="sudo"
+# ⬇️ نطاق Vercel — عدّله إن تغيّر
+VERCEL_ORIGIN="https://sadeed-nine.vercel.app"
 
-echo "== تثبيت حزم النظام =="
-sudo apt-get update -y
-sudo apt-get install -y python3 python3-venv python3-pip unzip curl libgomp1
+echo "== المشروع: $ROOT  ·  المستخدم: $RUN_USER =="
 
-echo "== بيئة بايثون الافتراضية + التبعيات =="
+echo "== [1/5] حزم النظام =="
+$SUDO apt-get update -y
+$SUDO apt-get install -y python3 python3-venv python3-pip unzip curl libgomp1
+
+echo "== [2/5] بيئة بايثون + التبعيات =="
 python3 -m venv .venv
-# shellcheck disable=SC1091
 . .venv/bin/activate
-pip install -U pip
-pip install -r requirements.txt
+pip install -q -U pip
+pip install -q -r requirements.txt
 
-echo "== تنزيل ثنائيّ llama.cpp (Linux x64) =="
+echo "== [3/5] ثنائيّ llama.cpp (Linux x64) =="
 mkdir -p llamacpp
 ASSET="$(curl -fsSL https://api.github.com/repos/ggml-org/llama.cpp/releases/latest \
   | grep -oE 'https://[^"]*ubuntu-x64[^"]*\.zip' | head -1)"
-if [ -z "$ASSET" ]; then
-  echo "!! لم أجد أصل ubuntu-x64 في آخر إصدار. حمّله يدوياً من:"
-  echo "   https://github.com/ggml-org/llama.cpp/releases"
-  exit 1
-fi
-echo "   $ASSET"
-curl -fL "$ASSET" -o /tmp/llama.zip
+[ -z "$ASSET" ] && { echo '!! لم أجد أصل ubuntu-x64؛ حمّله يدوياً من github releases'; exit 1; }
+curl -fsSL "$ASSET" -o /tmp/llama.zip
 rm -rf /tmp/llama && unzip -oq /tmp/llama.zip -d /tmp/llama
-# انسخ الخادم وكل المكتبات المشتركة (libggml*, libllama*) بجانبه
 find /tmp/llama -name 'llama-server' -exec cp {} llamacpp/llama-server \;
 find /tmp/llama \( -name '*.so' -o -name '*.so.*' \) -exec cp {} llamacpp/ \;
 chmod +x llamacpp/llama-server
-echo "   ثُبّت في llamacpp/ ($(ls llamacpp | wc -l) ملفاً)"
+echo "   llamacpp/ يحوي $(ls llamacpp | wc -l) ملفاً"
+
+echo "== [4/5] cloudflared (نفق HTTPS) =="
+if ! command -v cloudflared >/dev/null 2>&1; then
+  curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 \
+    -o /tmp/cloudflared
+  $SUDO install -m 0755 /tmp/cloudflared /usr/local/bin/cloudflared
+fi
+echo "   $(cloudflared --version 2>&1 | head -1)"
+
+echo "== [5/5] خدمتا systemd =="
+$SUDO tee /etc/systemd/system/sadeed-api.service >/dev/null <<EOF
+[Unit]
+Description=Sadeed API (FastAPI + llama.cpp)
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+User=$RUN_USER
+WorkingDirectory=$ROOT
+Environment=PYTHONIOENCODING=utf-8
+Environment=LAWMIND_TOP_K=2
+Environment=LD_LIBRARY_PATH=$ROOT/llamacpp
+Environment=SADEED_CORS_ORIGINS=$VERCEL_ORIGIN,http://localhost:3000
+ExecStart=$ROOT/.venv/bin/python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=180
+[Install]
+WantedBy=multi-user.target
+EOF
+
+$SUDO tee /etc/systemd/system/sadeed-tunnel.service >/dev/null <<EOF
+[Unit]
+Description=Sadeed Cloudflare Tunnel
+After=sadeed-api.service
+[Service]
+ExecStart=/usr/local/bin/cloudflared tunnel --url http://localhost:8000
+Restart=always
+RestartSec=5
+User=$RUN_USER
+[Install]
+WantedBy=multi-user.target
+EOF
+
+$SUDO systemctl daemon-reload
+$SUDO systemctl enable sadeed-api sadeed-tunnel >/dev/null 2>&1 || true
 
 echo ""
-echo "== تمّ الإعداد الأساسيّ. الخطوات المتبقّية (انظر deploy/DEPLOY.md): =="
-echo "  1) انسخ مجلد models/ (Qwen + bge) من جهازك إلى $ROOT/models/"
-echo "  2) جرّب التشغيل:"
-echo "       LD_LIBRARY_PATH=$ROOT/llamacpp .venv/bin/python -m uvicorn api.main:app --host 127.0.0.1 --port 8000"
-echo "  3) ثبّت خدمة systemd + نفق Cloudflare (DEPLOY.md)"
+echo "════════════════════════════════════════════════════════════════"
+echo " تمّ الإعداد. بقيت خطوتان:"
+echo ""
+echo " 1) من جهازك (PowerShell)، انسخ النموذجين إلى الخادم:"
+echo "      scp -r C:\\Users\\haltw\\Desktop\\Lawmind\\models $RUN_USER@<VPS_IP>:$ROOT/"
+echo ""
+echo " 2) بعد اكتمال النسخ، شغّل الخدمات هنا:"
+echo "      $SUDO systemctl start sadeed-api sadeed-tunnel"
+echo "      # انتظر ~20ث، ثم اعرف رابط النفق:"
+echo "      journalctl -u sadeed-tunnel | grep -o 'https://[^ ]*trycloudflare.com' | tail -1"
+echo "════════════════════════════════════════════════════════════════"
