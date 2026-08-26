@@ -25,17 +25,18 @@ python3 -m venv .venv
 pip install -q -U pip
 pip install -q -r requirements.txt
 
-echo "== [3/5] ثنائيّ llama.cpp (Linux x64) =="
+echo "== [3/5] بناء llama.cpp من المصدر (أضمن من الثنائيّ الجاهز) =="
+$SUDO apt-get install -y build-essential cmake git
 mkdir -p llamacpp
-ASSET="$(curl -fsSL https://api.github.com/repos/ggml-org/llama.cpp/releases/latest \
-  | grep -oE 'https://[^"]*ubuntu-x64[^"]*\.zip' | head -1)"
-[ -z "$ASSET" ] && { echo '!! لم أجد أصل ubuntu-x64؛ حمّله يدوياً من github releases'; exit 1; }
-curl -fsSL "$ASSET" -o /tmp/llama.zip
-rm -rf /tmp/llama && unzip -oq /tmp/llama.zip -d /tmp/llama
-find /tmp/llama -name 'llama-server' -exec cp {} llamacpp/llama-server \;
-find /tmp/llama \( -name '*.so' -o -name '*.so.*' \) -exec cp {} llamacpp/ \;
+rm -rf /tmp/llamacpp-src
+git clone --depth 1 https://github.com/ggml-org/llama.cpp /tmp/llamacpp-src
+cmake -S /tmp/llamacpp-src -B /tmp/llamacpp-src/build -DLLAMA_CURL=OFF
+cmake --build /tmp/llamacpp-src/build --config Release -j"$(nproc)" --target llama-server
+cp /tmp/llamacpp-src/build/bin/llama-server llamacpp/llama-server
+find /tmp/llamacpp-src/build \( -name '*.so' -o -name '*.so.*' \) \
+  -exec cp {} llamacpp/ \; 2>/dev/null || true
 chmod +x llamacpp/llama-server
-echo "   llamacpp/ يحوي $(ls llamacpp | wc -l) ملفاً"
+echo "   بُني llama-server ($(ls llamacpp | wc -l) ملفاً في llamacpp/)"
 
 echo "== [4/5] cloudflared (نفق HTTPS) =="
 if ! command -v cloudflared >/dev/null 2>&1; then
