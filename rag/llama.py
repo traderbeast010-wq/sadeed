@@ -63,7 +63,9 @@ CHAT_PORT = 8082
 #   المعالج : خيوط 12 · ub 512   → prefill 30.7 توكن/ث
 #   الكرت   : خيوط  6 · ub 2048  → prefill 72.1 توكن/ث
 _IS_VULKAN = SERVER_BIN == _VULKAN
-THREADS = 6 if _IS_VULKAN else 12
+# عدد الخيوط: على VPS ذي نواتين، 12 خيطاً يتزاحم ويُبطئ — اضبطه بـ
+#   LAWMIND_THREADS=2  ليطابق النوى. الافتراضي كما كان محلياً.
+THREADS = int(os.environ.get("LAWMIND_THREADS", "0")) or (6 if _IS_VULKAN else 12)
 UBATCH = 2048 if _IS_VULKAN else 512
 
 

@@ -57,7 +57,10 @@ Type=simple
 User=$RUN_USER
 WorkingDirectory=$ROOT
 Environment=PYTHONIOENCODING=utf-8
-Environment=LAWMIND_TOP_K=2
+Environment=LAWMIND_TOP_K=1
+Environment=LAWMIND_THREADS=2
+Environment=LAWMIND_NP=1
+Environment=LAWMIND_CTX=4096
 Environment=LD_LIBRARY_PATH=$ROOT/llamacpp
 Environment=SADEED_CORS_ORIGINS=$VERCEL_ORIGIN,http://localhost:3000
 ExecStart=$ROOT/.venv/bin/python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
