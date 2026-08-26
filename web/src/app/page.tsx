@@ -48,6 +48,13 @@ const DEMO = {
   },
 };
 
+const PLANS = [
+  { name: "تجربة مجانية", price: "مجانًا", unit: "", desc: "مراجعة عقدين", feats: ["تدقيق عقدين كاملين", "كل مزايا التدقيق الأساسية", "بلا بطاقة دفع"], cta: "ابدأ مجاناً", hi: false },
+  { name: "الدفع لكل استخدام", price: "2", unit: "ر.ع / للعقد", desc: "للاستخدام غير المنتظم", feats: ["ادفع لكل عقد تدقّقه", "بلا اشتراك شهريّ", "كل مزايا التدقيق"], cta: "اختر الباقة", hi: false },
+  { name: "الأساسية", price: "9", unit: "ر.ع / شهرياً", desc: "حتى 10 عقود شهرياً", feats: ["حتى 10 عقود شهرياً", "المساعد القانونيّ الذكيّ", "إدارة العملاء والأتعاب"], cta: "اشترك الآن", hi: true },
+  { name: "الاحترافية", price: "19", unit: "ر.ع / شهرياً", desc: "حتى 30 عقداً + تقارير وأرشفة", feats: ["حتى 30 عقداً شهرياً", "تقارير رسمية وأرشفة كاملة", "فوترة ومكتبة بنود"], cta: "اشترك الآن", hi: false },
+];
+
 const SEALS = [
   { color: "text-amber-400", title: "سند قانونيّ قطعيّ", body: "كل حكم مستند لنصّ المادة ورقمها ومرسومها.", icon: "check" },
   { color: "text-emerald-400", title: "محليّ ١٠٠٪", body: "عقود موكّليك لا تغادر جهاز مكتبك إطلاقاً.", icon: "lock" },
@@ -305,6 +312,69 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* الأسعار */}
+      <section className="py-20 bg-slate-900/50 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-semibold text-amber-400 tracking-wider">باقات تناسب مكتبك</span>
+            <h2 className="text-2xl sm:text-4xl font-bold text-white mt-3 leading-relaxed py-1">
+              أسعار بسيطة وشفّافة بالريال العُمانيّ
+            </h2>
+            <p className="text-sm sm:text-base text-slate-300 mt-3 leading-relaxed">
+              ابدأ مجاناً، وادفع فقط عندما يكبر عملك. بلا رسوم خفيّة.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {PLANS.map((p) => (
+              <div
+                key={p.name}
+                className={`relative rounded-3xl p-6 flex flex-col ${
+                  p.hi
+                    ? "bg-gradient-to-b from-amber-950/40 to-slate-900 border-2 border-amber-500/50"
+                    : "bg-slate-900 border border-slate-800"
+                }`}
+              >
+                {p.hi && (
+                  <span className="absolute -top-3 right-6 text-[10px] font-bold bg-amber-500 text-slate-950 px-2.5 py-1 rounded-full">
+                    الأكثر شيوعاً
+                  </span>
+                )}
+                <h3 className="text-base font-bold text-white">{p.name}</h3>
+                <p className="text-[11px] text-slate-400 mt-0.5">{p.desc}</p>
+                <div className="mt-4 flex items-baseline gap-1.5">
+                  <span className={`tnum text-3xl font-black ${p.hi ? "text-amber-400" : "text-white"}`}>
+                    {p.price}
+                  </span>
+                  {p.unit && <span className="text-xs text-slate-400">{p.unit}</span>}
+                </div>
+                <ul className="mt-5 space-y-2.5 flex-1">
+                  {p.feats.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-xs text-slate-300 leading-relaxed">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-emerald-400 shrink-0 mt-0.5"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/login"
+                  className={`mt-6 w-full py-2.5 rounded-xl text-center text-xs font-semibold transition-all ${
+                    p.hi
+                      ? "bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white border border-amber-500/40 shadow-md shadow-amber-950/50"
+                      : "bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700"
+                  }`}
+                >
+                  {p.cta}
+                </Link>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-[11px] text-slate-500 mt-6">
+            جميع الباقات تعمل محلياً على جهاز مكتبك — بلا اتصال بأي خدمة ذكاء اصطناعيّ خارجية.
+          </p>
         </div>
       </section>
 
