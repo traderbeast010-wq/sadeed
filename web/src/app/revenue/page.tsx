@@ -6,10 +6,7 @@ import { getRevenue, listInvoices } from "@/lib/api";
 import type { Invoice, RevenueSummary } from "@/lib/types";
 
 function omr(n: number) {
-  return n.toLocaleString("ar", {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3,
-  });
+  return n.toLocaleString("ar", { minimumFractionDigits: 3, maximumFractionDigits: 3 });
 }
 
 export default function RevenuePage() {
@@ -18,154 +15,94 @@ export default function RevenuePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getRevenue().then(setSum).catch((e) =>
-      setError(e instanceof Error ? e.message : "تعذّر التحميل"),
-    );
+    getRevenue().then(setSum).catch((e) => setError(e instanceof Error ? e.message : "تعذّر التحميل"));
     listInvoices().then(setInvoices).catch(() => setInvoices([]));
   }, []);
 
   return (
-    <div className="mx-auto max-w-[1000px] px-8 py-10">
-      <div className="pb-5 mb-6 border-b border-[var(--color-line)]">
-        <h1 className="display text-[24px] text-[var(--color-ink)]">الإيرادات</h1>
-        <p className="mt-2 text-[13px] text-[var(--color-ink-2)] leading-relaxed">
-          أتعاب العقود وفواتيرها — بالريال العُمانيّ.
-        </p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      {/* الترويسة */}
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">الأتعاب والفوترة</h1>
+          <p className="text-xs text-slate-400 mt-1">أتعاب العقود وفواتيرها — بالريال العُمانيّ.</p>
+        </div>
       </div>
 
       {error && (
-        <p className="mb-5 text-[12.5px] text-[var(--color-violation)]">
-          {error}
-        </p>
+        <div className="bg-rose-950/40 border border-rose-900/40 rounded-2xl px-4 py-3">
+          <p className="text-sm text-rose-300 font-medium">{error}</p>
+        </div>
       )}
 
       {/* بطاقات الإجماليّات */}
       {sum && (
-        <div className="grid sm:grid-cols-3 gap-3 mb-9">
-          <Stat
-            label="مُفوتَر"
-            value={omr(sum.invoiced_total)}
-            hint={`${sum.invoice_count} فاتورة`}
-            accent="brand"
-          />
-          <Stat
-            label="محصَّل"
-            value={omr(sum.paid_total)}
-            hint="مدفوعة"
-            accent="compliant"
-          />
-          <Stat
-            label="مستحقّ"
-            value={omr(sum.outstanding_total)}
-            hint="غير مدفوعة بعد"
-            accent="deficient"
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+            <span className="text-xs font-semibold text-slate-400">إجمالي المحصَّل</span>
+            <div className="tnum mt-2 text-2xl font-bold text-emerald-400">{omr(sum.paid_total)} <span className="text-sm font-normal">ر.ع</span></div>
+            <p className="text-[11px] text-slate-500 mt-1">فواتير مدفوعة</p>
+          </div>
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+            <span className="text-xs font-semibold text-slate-400">المستحقّ (غير مدفوع)</span>
+            <div className="tnum mt-2 text-2xl font-bold text-amber-400">{omr(sum.outstanding_total)} <span className="text-sm font-normal">ر.ع</span></div>
+            <p className="text-[11px] text-slate-500 mt-1">بانتظار السداد</p>
+          </div>
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+            <span className="text-xs font-semibold text-slate-400">إجمالي المُفوتَر</span>
+            <div className="tnum mt-2 text-2xl font-bold text-blue-400">{omr(sum.invoiced_total)} <span className="text-sm font-normal">ر.ع</span></div>
+            <p className="text-[11px] text-slate-500 mt-1"><span className="tnum">{sum.invoice_count}</span> فاتورة</p>
+          </div>
         </div>
       )}
 
       {/* الفواتير */}
-      <div className="flex items-baseline gap-2 mb-3.5">
-        <h2 className="text-[13px] font-bold text-[var(--color-ink)]">الفواتير</h2>
-        {invoices && (
-          <span className="tnum text-[11px] text-[var(--color-ink-3)]">
-            ({invoices.length})
-          </span>
-        )}
-        <span className="h-px flex-1 bg-[var(--color-line)]" />
-      </div>
-
-      {invoices === null ? (
-        <p className="text-[12.5px] text-[var(--color-ink-3)] py-6">جارٍ التحميل…</p>
-      ) : invoices.length === 0 ? (
-        <p className="text-[12.5px] text-[var(--color-ink-3)] py-4">
-          لا فواتير بعد. أصدِر فاتورة من صفحة أيّ تحليل بعد تحديد أتعابه.
-        </p>
-      ) : (
-        <div className="overflow-hidden">
-          <table className="w-full text-[12.5px]">
-            <thead>
-              <tr className="text-[10px] tracking-wide text-[var(--color-ink-4)] border-b border-[var(--color-line)]">
-                <th className="text-start font-medium pb-2.5 w-32">الرقم</th>
-                <th className="text-start font-medium pb-2.5">العميل</th>
-                <th className="text-start font-medium pb-2.5 w-28">المبلغ</th>
-                <th className="text-start font-medium pb-2.5 w-24">الحالة</th>
-                <th className="text-start font-medium pb-2.5 w-32">التاريخ</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoices.map((v) => (
-                <tr
-                  key={v.id}
-                  className="border-b border-[var(--color-line-soft)] hover:bg-[var(--color-surface-2)] transition-colors"
-                >
-                  <td className="py-3">
-                    <Link
-                      href={`/invoices/${v.id}`}
-                      className="tnum font-medium text-[var(--color-ink)] hover:text-[var(--color-brand)] transition-colors"
-                    >
-                      {v.invoice_no}
-                    </Link>
-                  </td>
-                  <td className="py-3 text-[var(--color-ink-2)]">
-                    {v.client_name ?? "—"}
-                  </td>
-                  <td className="py-3 tnum font-bold text-[var(--color-ink)]">
-                    {omr(v.amount)}
-                  </td>
-                  <td className="py-3">
-                    {v.status === "paid" ? (
-                      <span className="text-[11px] text-[var(--color-compliant)] font-medium">
-                        ● مدفوعة
-                      </span>
-                    ) : (
-                      <span className="text-[11px] text-[var(--color-deficient)] font-medium">
-                        مستحقّة
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-3 tnum text-[11px] text-[var(--color-ink-3)]">
-                    {new Date(v.created_at).toLocaleDateString("ar", {
-                      dateStyle: "short",
-                    })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-bold text-white">سجلّ فواتير الأتعاب الصادرة</h2>
+          {invoices && <span className="tnum text-xs text-slate-400">{invoices.length} فاتورة</span>}
         </div>
-      )}
-    </div>
-  );
-}
 
-function Stat({
-  label,
-  value,
-  hint,
-  accent,
-}: {
-  label: string;
-  value: string;
-  hint: string;
-  accent: "brand" | "compliant" | "deficient";
-}) {
-  const color =
-    accent === "brand"
-      ? "var(--color-brand)"
-      : accent === "compliant"
-        ? "var(--color-compliant)"
-        : "var(--color-deficient)";
-  return (
-    <div className="rounded-[12px] border border-[var(--color-line)] bg-[var(--color-surface)] p-5">
-      <p className="text-[10.5px] text-[var(--color-ink-3)] mb-2">{label}</p>
-      <p className="tnum text-[26px] font-bold leading-none" style={{ color }}>
-        {value}
-        <span className="text-[13px] font-medium text-[var(--color-ink-3)]">
-          {" "}
-          ر.ع
-        </span>
-      </p>
-      <p className="text-[10.5px] text-[var(--color-ink-4)] mt-2">{hint}</p>
+        {invoices === null ? (
+          <p className="text-xs text-slate-500 py-4">جارٍ التحميل…</p>
+        ) : invoices.length === 0 ? (
+          <p className="text-xs text-slate-400 py-4">
+            لا فواتير بعد. أصدِر فاتورة من صفحة أيّ تحليل بعد تحديد أتعابه.
+          </p>
+        ) : (
+          <div className="space-y-2.5">
+            {invoices.map((v) => (
+              <Link
+                key={v.id}
+                href={`/invoices/${v.id}`}
+                className="flex items-center justify-between gap-3 bg-slate-950/70 hover:bg-slate-950 border border-slate-800 hover:border-amber-500/30 rounded-2xl p-4 transition-all group"
+              >
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="tnum text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">{v.invoice_no}</span>
+                    {v.status === "paid" ? (
+                      <span className="text-[10px] bg-emerald-950/70 text-emerald-300 border border-emerald-800/40 px-2 py-0.5 rounded font-semibold">مدفوعة</span>
+                    ) : (
+                      <span className="text-[10px] bg-amber-950/70 text-amber-300 border border-amber-800/40 px-2 py-0.5 rounded font-semibold">مستحقّة</span>
+                    )}
+                  </div>
+                  <h3 className="text-sm font-bold text-white mt-1 group-hover:text-amber-300 transition-colors truncate">
+                    {v.client_name ?? "عميل غير محدَّد"}
+                  </h3>
+                  <p className="tnum text-[11px] text-slate-500 mt-0.5">
+                    {new Date(v.created_at).toLocaleDateString("ar", { dateStyle: "medium" })}
+                    {v.filename ? ` · ${v.filename}` : ""}
+                  </p>
+                </div>
+                <div className="text-left shrink-0">
+                  <span className="tnum text-lg font-bold text-amber-400">{omr(v.amount)}</span>
+                  <span className="text-xs text-slate-400"> ر.ع</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
