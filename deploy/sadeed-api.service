@@ -16,7 +16,7 @@ Environment=PYTHONIOENCODING=utf-8
 Environment=LAWMIND_TOP_K=2
 Environment=LD_LIBRARY_PATH=/home/ubuntu/Lawmind/llamacpp
 # اضبط نطاق Vercel بعد نشر الواجهة (أو "*" للعرض المفتوح):
-Environment=SADEED_CORS_ORIGINS=https://your-app.vercel.app,http://localhost:3000
+Environment=SADEED_CORS_ORIGINS=*
 ExecStart=/home/ubuntu/Lawmind/.venv/bin/python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
 Restart=on-failure
 RestartSec=5
