@@ -13,7 +13,7 @@ import type {
   RevenueSummary,
   SavedClause,
   SearchHit,
-  StreamEvent,
+  AnalysisProgress,
 } from "./types";
 import fallbackDemos from "./fallback-demos.json";
 
@@ -448,28 +448,38 @@ export async function searchLaw(q: string, k = 5) {
 }
 
 /**
- * يفتح مجرى SSE لتحليل جارٍ.
- * البثّ بندًا بندًا هو ما يحوّل انتظار الدقيقتين من عيب إلى عرض:
- * المستخدم يرى النظام يشتغل بدل شاشة تحميل صامتة.
+ * يسبُر تقدّم تحليل جارٍ كل 1.5ث (بدل SSE مفتوح يُخزّنه نفق Cloudflare ويقطعه).
+ * طلبات قصيرة تعبر أيّ نفق، وتظهر البنود أولاً بأوّل — انتظار الدقيقتين يبقى
+ * عرضاً حياً لا شاشة صامتة. نتسامح مع تعثّر عابر قبل الاستسلام.
  */
-export function streamAnalysis(
+export function pollAnalysis(
   analysisId: string,
-  onEvent: (e: StreamEvent) => void,
+  onProgress: (p: AnalysisProgress) => void,
   onError?: (msg: string) => void,
 ) {
-  const es = new EventSource(`${API}/analyses/${analysisId}/stream`);
-  es.onmessage = (m) => {
+  let stopped = false;
+  let fails = 0;
+  async function tick() {
+    if (stopped) return;
     try {
-      const evt = JSON.parse(m.data) as StreamEvent;
-      onEvent(evt);
-      if (evt.stage === "done" || evt.stage === "error") es.close();
+      const r = await fetch(`${API}/analyses/${analysisId}/progress`, {
+        cache: "no-store",
+      });
+      if (!r.ok) throw new Error(String(r.status));
+      const p = (await r.json()) as AnalysisProgress;
+      fails = 0;
+      onProgress(p);
+      if (p.stage === "done" || p.error) return; // انتهى — أوقف السبر
     } catch {
-      /* حدث غير صالح — نتجاهله */
+      if (++fails >= 5) {
+        onError?.("انقطع الاتصال بالخادم أثناء التحليل.");
+        return;
+      }
     }
+    if (!stopped) setTimeout(tick, 1500);
+  }
+  tick();
+  return () => {
+    stopped = true;
   };
-  es.onerror = () => {
-    es.close();
-    onError?.("انقطع الاتصال بالخادم أثناء التحليل.");
-  };
-  return () => es.close();
 }

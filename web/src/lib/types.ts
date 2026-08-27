@@ -239,12 +239,14 @@ export interface LawArticle {
   dense_rank?: number | null;
 }
 
-export type StreamEvent =
-  | { stage: "parsed"; clause_count: number }
-  | { stage: "retrieved" }
-  | { stage: "clause"; index: number; total: number; clause: Clause }
-  | { stage: "done"; report: Report }
-  | { stage: "error"; message: string };
+// لقطة تقدّم التحليل — تُقرأ بالسبر الدوريّ (بديل البثّ SSE الذي يكسره النفق).
+export type AnalysisProgress = {
+  stage: string; // queued | parsed | retrieved | clause | done | error
+  clause_count: number | null;
+  clauses: Clause[];
+  report: Report | null;
+  error: string | null;
+};
 
 export const VERDICTS: Verdict[] = [
   "مخالف",

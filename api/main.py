@@ -22,7 +22,6 @@ Sadeed API — FastAPI.
     uvicorn api.main:app --port 8000
 """
 
-import asyncio
 import json
 import os
 import sys
@@ -78,7 +77,7 @@ app.add_middleware(
 STATE = {"retriever": None, "embed": None, "llm": None,
          "chat": None, "art_vecs": None, "router": None}
 POOL = ThreadPoolExecutor(max_workers=2)
-JOBS = {}          # analysis_id -> {"queue": asyncio.Queue, "report": dict|None}
+JOBS = {}          # aid -> {stage, clause_count, clauses, report, error} (سبر)
 
 
 # ── دورة الحياة ────────────────────────────────────────────────────────────
@@ -350,25 +349,28 @@ async def upload(file: UploadFile = File(...)):
 
 
 # ── التحليل ────────────────────────────────────────────────────────────────
-def _run_analysis(cid, aid, loop, queue):
-    """يعمل في خيط منفصل؛ يبثّ الأحداث عبر الحلقة غير المتزامنة."""
-    def push(evt):
-        asyncio.run_coroutine_threadsafe(queue.put(evt), loop)
+def _run_analysis(cid, aid):
+    """يعمل في خيط منفصل؛ يسجّل التقدّم في JOBS[aid] ليُسبَر دورياً.
 
+    استُبدل البثّ (SSE) بالسبر (polling): نفق Cloudflare المجانيّ يُخزّن البثّ
+    المفتوح ويقطعه بعد ~100ث، والتحليل على VPS ضعيف يتجاوزها. السبر يعتمد
+    طلبات قصيرة تعبر أيّ نفق، ونحفظ لقطة التقدّم هنا ليقرأها /progress.
+    """
+    job = JOBS[aid]
     try:
         c = store.get_contract(cid)
         text = extract(c["path"])
         clauses = parse_clauses(text)
-        push({"stage": "parsed", "clause_count": len(clauses)})
+        job["clause_count"] = len(clauses)
+        job["stage"] = "parsed"
 
         r, embed, llm = STATE["retriever"], STATE["embed"], STATE["llm"]
         vecs = embed.embed([cl["text"] for cl in clauses])
-        # ترجيح القوانين يُشتقّ من العقد كاملاً مرّة واحدة، لا لكل بند
+        # ترجيح القوانين يُشتقّ من العقد كاملاً مرّة واحدة, لا لكل بند
         contract_vec = embed.embed(text[:4000])[0]
         router = STATE["router"]
-        law_weights = router.weights(text, contract_vec)
         routing = router.explain(text, contract_vec)
-        push({"stage": "routed", "routing": routing})
+        job["stage"] = "retrieved"
 
         results = []
         guard_log = []
@@ -405,8 +407,9 @@ def _run_analysis(cid, aid, loop, queue):
             if g.log:
                 guard_log.append({"clause_id": cl["clause_id"],
                                   "entries": g.log})
-            push({"stage": "clause", "index": i + 1,
-                  "total": len(clauses), "clause": row})
+            # لقطة التقدّم: البنود المكتملة حتى الآن (نسخة ليقرأها السابر بأمان)
+            job["clauses"] = list(results)
+            job["stage"] = "clause"
 
         summary = {"مخالف": 0, "ناقص": 0, "سليم": 0, "لا مادة ذات صلة": 0}
         for x in results:
@@ -433,39 +436,44 @@ def _run_analysis(cid, aid, loop, queue):
             store.set_fee(aid, ctype, price)
             report["contract_type"] = ctype
             report["fee"] = price
-        push({"stage": "done", "report": report})
+        job["report"] = report
+        job["stage"] = "done"
     except Exception as e:                       # noqa: BLE001
-        push({"stage": "error", "message": str(e)})
+        job["error"] = str(e)
+        job["stage"] = "error"
 
 
 @app.post("/contracts/{cid}/analyze")
-async def analyze(cid: str):
+def analyze(cid: str):
     if not store.get_contract(cid):
         raise HTTPException(404, "عقد غير موجود")
     aid = uuid.uuid4().hex[:12]
-    queue = asyncio.Queue()
-    JOBS[aid] = {"queue": queue, "report": None}
-    loop = asyncio.get_running_loop()
-    POOL.submit(_run_analysis, cid, aid, loop, queue)
+    # لقطة التقدّم — يقرؤها /progress بالسبر الدوريّ. لا طابور ولا حلقة
+    # غير متزامنة: التحليل يعمل في الخيط، والواجهة تسأل «أين وصلت؟» كل ثانية.
+    JOBS[aid] = {"stage": "queued", "clause_count": None,
+                 "clauses": [], "report": None, "error": None}
+    POOL.submit(_run_analysis, cid, aid)
     return {"analysis_id": aid, "status": "processing"}
 
 
-@app.get("/analyses/{aid}/stream")
-async def stream(aid: str):
+@app.get("/analyses/{aid}/progress")
+def analysis_progress(aid: str):
+    """لقطة تقدّم التحليل — طلب قصير يعبر النفق (بديل SSE الذي يُخزَّن ويُقطَع).
+
+    إن لم تعد اللقطة في الذاكرة (أعيد تشغيل الخادم) نرجع التحليل المحفوظ من
+    القاعدة مكتملاً — فلا يتجمّد العرض.
+    """
     job = JOBS.get(aid)
-    if not job:
+    if job is None:
+        rep = store.get_analysis(aid)
+        if rep:
+            return {"stage": "done", "clause_count": rep.get("clause_count"),
+                    "clauses": rep.get("clauses", []), "report": rep,
+                    "error": None}
         raise HTTPException(404, "تحليل غير موجود")
-
-    async def gen():
-        while True:
-            evt = await job["queue"].get()
-            yield f"data: {json.dumps(evt, ensure_ascii=False)}\n\n"
-            if evt.get("stage") in ("done", "error"):
-                break
-
-    return StreamingResponse(gen(), media_type="text/event-stream",
-                             headers={"Cache-Control": "no-cache",
-                                      "X-Accel-Buffering": "no"})
+    return {"stage": job["stage"], "clause_count": job["clause_count"],
+            "clauses": job["clauses"], "report": job["report"],
+            "error": job["error"]}
 
 
 @app.get("/analyses/{aid}")

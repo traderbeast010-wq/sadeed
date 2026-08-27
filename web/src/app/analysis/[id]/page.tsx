@@ -5,9 +5,9 @@ import Link from "next/link";
 import {
   approve,
   getAnalysis,
+  pollAnalysis,
   saveClauseToLibrary,
   setRevision,
-  streamAnalysis,
   suggestRewrite,
 } from "@/lib/api";
 import type { Clause, Report, Verdict } from "@/lib/types";
@@ -61,21 +61,27 @@ export default function AnalysisPage({
       .then(setReport)
       .catch(() => {
         setStage("جارٍ تفكيك العقد…");
-        streamAnalysis(
+        pollAnalysis(
           id,
-          (e) => {
-            if (e.stage === "parsed") {
-              setTotal(e.clause_count);
-              setStage(`فُكّك إلى ${e.clause_count} بند — جارٍ الاسترجاع…`);
-            } else if (e.stage === "retrieved") {
+          (p) => {
+            if (p.error) {
+              setError(p.error);
+              return;
+            }
+            if (p.clause_count != null) setTotal(p.clause_count);
+            setLive(p.clauses); // لقطة كاملة كل سبرة — تحديث لا إلحاق
+            if (p.report) {
+              setReport(p.report);
+              return;
+            }
+            if (p.stage === "parsed") {
+              setStage(`فُكّك إلى ${p.clause_count} بند — جارٍ الاسترجاع…`);
+            } else if (p.stage === "retrieved") {
               setStage("استُرجعت المواد — يبدأ التدقيق…");
-            } else if (e.stage === "clause") {
-              setLive((p) => [...p, e.clause]);
-              setStage(`تدقيق البند ${e.index} من ${e.total}`);
-            } else if (e.stage === "done") {
-              setReport(e.report);
-            } else if (e.stage === "error") {
-              setError(e.message);
+            } else if (p.stage === "clause") {
+              setStage(
+                `تدقيق البند ${p.clauses.length}${p.clause_count ? ` من ${p.clause_count}` : ""}`,
+              );
             }
           },
           setError,
